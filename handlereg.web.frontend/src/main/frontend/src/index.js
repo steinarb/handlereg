@@ -13,7 +13,7 @@ import createRootReducer from './reducers';
 import rootSaga from './sagas';
 import { SET_BASENAME, LOGINTILSTAND_HENT } from './actiontypes';
 
-const baseUrl = Array.from(document.scripts).map(s => s.src).filter(src => src.includes('bundle.js'))[0].replace('/bundle.js', '');
+const baseUrl = Array.from(document.scripts).map(s => s.src).filter(src => src.includes('assets/'))[0].replace(/\/assets\/.*/, '');
 const basename = new URL(baseUrl).pathname;
 axios.defaults.baseURL = baseUrl;
 const sagaMiddleware = createSagaMiddleware();
