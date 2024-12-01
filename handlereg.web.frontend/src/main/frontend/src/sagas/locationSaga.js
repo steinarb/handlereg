@@ -2,7 +2,6 @@ import { takeLatest, put, select } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'redux-first-history';
 import {
     OVERSIKT_HENT,
-    BUTIKKER_HENT,
     FAVORITTER_HENT,
     SUMBUTIKK_HENT,
     HANDLINGERBUTIKK_HENT,
@@ -23,12 +22,10 @@ function* locationChange(action) {
 
     if (pathname === '' || pathname === '/') {
         yield put(OVERSIKT_HENT());
-        yield put(BUTIKKER_HENT());
     }
 
     if (pathname === '/hurtigregistrering') {
         yield put(OVERSIKT_HENT());
-        yield put(BUTIKKER_HENT());
         yield put(VIS_KVITTERING(false));
         const brukernavn = yield select (state => (state.loginresultat || {}).brukernavn);
         if (brukernavn) {
@@ -37,7 +34,7 @@ function* locationChange(action) {
     }
 
     if (pathname === '/endrebutikk') {
-        yield put(BUTIKKER_HENT());
+        // empty
     }
 
     if (pathname === '/statistikk/sumbutikk') {
@@ -62,7 +59,6 @@ function* locationChange(action) {
 
     if (pathname === '/favoritter/leggtil') {
         yield put(OVERSIKT_HENT());
-        yield put(BUTIKKER_HENT());
     }
 
     if (pathname === '/favoritter/slett') {
