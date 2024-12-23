@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { useGetLogintilstandQuery } from './api';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router';
 import { HistoryRouter as Router } from "redux-first-history/rr6";
 import './App.css';
 import Home from './components/Home';
