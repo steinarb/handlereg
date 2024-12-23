@@ -1,11 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {
-    VELG_FAVORITTBUTIKK,
-} from '../actiontypes';
+import { VELG_FAVORITTBUTIKK } from '../actiontypes';
+import { api } from '../api';
 
-const favorittbutikkReducer = createReducer(-1, builder => {
+const defaultState = -1;
+
+const favorittbutikkReducer = createReducer(defaultState, builder => {
     builder
-        .addCase(VELG_FAVORITTBUTIKK, (state, action) => action.payload);
+        .addCase(VELG_FAVORITTBUTIKK, (state, action) => action.payload)
+        .addMatcher(api.endpoints.postFavorittLeggtil.matchFulfilled, () => defaultState);
 });
 
 export default favorittbutikkReducer;
