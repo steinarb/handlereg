@@ -2,7 +2,7 @@ import { createListenerMiddleware } from '@reduxjs/toolkit';
 import { isAnyOf } from '@reduxjs/toolkit';
 import { api } from './api';
 import { LOCATION_CHANGE } from 'redux-first-history';
-import { VIS_KVITTERING } from './actiontypes';
+import { VIS_KVITTERING, BUTIKKNAVN_ENDRE } from './actiontypes';
 
 const listenerMiddleware = createListenerMiddleware();
 
@@ -49,6 +49,11 @@ listenerMiddleware.startListening({
     type: LOCATION_CHANGE,
     effect: (action, listenerApi) => {
         listenerApi.dispatch(VIS_KVITTERING(false)); // Blank receit display when navigating in the app
+        const basename = listenerApi.getState().basename;
+        const newLocation = action.payload.location.pathname;
+        if (basename + '/nybutikk' === newLocation) {
+            listenerApi.dispatch(BUTIKKNAVN_ENDRE('')); // Blank receit display when navigating in the app
+        }
     }
 })
 
