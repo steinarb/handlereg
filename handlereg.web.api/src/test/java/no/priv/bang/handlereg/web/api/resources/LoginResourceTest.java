@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2024 Steinar Bang
+ * Copyright 2019-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.Base64;
 
 import javax.ws.rs.InternalServerErrorException;
 
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.web.util.WebUtils;
 
@@ -149,6 +150,20 @@ class LoginResourceTest extends ShiroTestBase {
         var resultat = resource.login(credentials);
         assertFalse(resultat.suksess());
         assertThat(resultat.feilmelding()).startsWith("Feil passord");
+    }
+
+    @Test
+    void testLoginKontoLåst() {
+        var logservice = new MockLogService();
+        var resource = new LoginResource();
+        resource.setLogservice(logservice);
+        var username = "jd";
+        var password = Base64.getEncoder().encodeToString("feil".getBytes());
+        createSubjectThrowingExceptionAndBindItToThread(LockedAccountException.class);
+        var credentials = Credentials.with().username(username).password(password).build();
+        var resultat = resource.login(credentials);
+        assertFalse(resultat.suksess());
+        assertThat(resultat.feilmelding()).startsWith("Låst konto");
     }
 
     @Test

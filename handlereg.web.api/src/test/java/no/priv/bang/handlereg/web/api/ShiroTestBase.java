@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, 2024 Steinar Bang
+ * Copyright 2019-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package no.priv.bang.handlereg.web.api;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,6 +75,14 @@ public class ShiroTestBase {
         dummyrequest.setSession(session);
         var dummyresponse = new MockHttpServletResponse();
         return createSubjectAndBindItToThread(dummyrequest, dummyresponse);
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected WebSubject createSubjectThrowingExceptionAndBindItToThread(Class exceptionClass) {
+        var subject = mock(WebSubject.class);
+        doThrow(exceptionClass).when(subject).login(any());
+        ThreadContext.bind(subject);
+        return subject;
     }
 
     protected WebSubject createSubjectAndBindItToThread(HttpServletRequest request, HttpServletResponse response) {
