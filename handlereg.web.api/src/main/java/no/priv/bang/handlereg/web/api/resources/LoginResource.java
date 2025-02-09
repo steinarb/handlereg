@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2024 Steinar Bang
+ * Copyright 2019-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -94,6 +95,9 @@ public class LoginResource {
         } catch (IncorrectCredentialsException  e) {
             logger.warn("Login error: wrong password", e);
             return Loginresultat.with().suksess(false).feilmelding("Feil passord").build();
+        } catch (ExcessiveAttemptsException  e) {
+            logger.warn("Login error: locked account", e);
+            return Loginresultat.with().suksess(false).feilmelding("Grense for feilede innlogginger nådd og konto er låst. Vennligst kontakt systemadministrator").build();
         } catch (LockedAccountException  e) {
             logger.warn("Login error: locked account", e);
             return Loginresultat.with().suksess(false).feilmelding("Låst konto").build();

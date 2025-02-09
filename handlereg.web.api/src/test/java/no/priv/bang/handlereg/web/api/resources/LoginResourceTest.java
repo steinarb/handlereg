@@ -22,6 +22,7 @@ import java.util.Base64;
 import javax.ws.rs.InternalServerErrorException;
 
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.web.util.WebUtils;
@@ -151,6 +152,20 @@ class LoginResourceTest extends ShiroTestBase {
         var resultat = resource.login(credentials);
         assertFalse(resultat.suksess());
         assertThat(resultat.feilmelding()).startsWith("Feil passord");
+    }
+
+    @Test
+    void testLoginGrenseForFeiledeInnloggingerNådd() {
+        var logservice = new MockLogService();
+        var resource = new LoginResource();
+        resource.setLogservice(logservice);
+        var username = "jd";
+        var password = Base64.getEncoder().encodeToString("feil".getBytes());
+        createSubjectThrowingExceptionAndBindItToThread(ExcessiveAttemptsException.class);
+        var credentials = Credentials.with().username(username).password(password).build();
+        var resultat = resource.login(credentials);
+        assertFalse(resultat.suksess());
+        assertThat(resultat.feilmelding()).startsWith("Grense for feilede innlogginger nådd og konto er låst. Vennligst kontakt systemadministrator");
     }
 
     @Test
