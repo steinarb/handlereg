@@ -95,9 +95,7 @@ class HandleregServiceProviderTest {
         handlereg.activate();
 
         assertEquals(0, logservice.getLogmessages().size());
-        assertThrows(HandleregException.class, () -> {
-                handlereg.finnOversikt("jd");
-            });
+        assertThrows(HandleregException.class, () -> handlereg.finnOversikt("jd"));
         assertEquals(1, logservice.getLogmessages().size());
     }
 
@@ -151,9 +149,7 @@ class HandleregServiceProviderTest {
         handlereg.activate();
 
         assertEquals(0, logservice.getLogmessages().size());
-        assertThrows(HandleregException.class, () -> {
-                handlereg.findLastTransactions(1);
-            });
+        assertThrows(HandleregException.class, () -> handlereg.findLastTransactions(1));
         assertEquals(1, logservice.getLogmessages().size());
     }
 
@@ -228,9 +224,7 @@ class HandleregServiceProviderTest {
             .belop(nyttBelop)
             .handletidspunkt(now)
             .build();
-        assertThrows(HandleregException.class, () -> {
-                handlereg.registrerHandling(nyHandling);
-            });
+        assertThrows(HandleregException.class, () -> handlereg.registrerHandling(nyHandling));
     }
 
     @Test
@@ -291,9 +285,7 @@ class HandleregServiceProviderTest {
         handlereg.activate();
 
         var nybutikk = Butikk.with().butikknavn("Spar fjellheimen").gruppe(2).rekkefolge(1500).build();
-        assertThrows(HandleregException.class, () -> {
-                handlereg.leggTilButikk(nybutikk);
-            });
+        assertThrows(HandleregException.class, () -> handlereg.leggTilButikk(nybutikk));
     }
 
     @Test
@@ -380,9 +372,7 @@ class HandleregServiceProviderTest {
         handlereg.setUseradmin(useradmin);
         handlereg.activate();
 
-        assertThrows(HandleregException.class, () -> {
-                handlereg.finnNesteLedigeRekkefolgeForGruppe(1);
-            });
+        assertThrows(HandleregException.class, () -> handlereg.finnNesteLedigeRekkefolgeForGruppe(1));
     }
 
     @Test

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2024 Steinar Bang
+ * Copyright 2019-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,9 +66,7 @@ class HandlingResourceTest {
         resource.setLogservice(logservice);
         resource.handlereg = handlereg;
 
-        assertThrows(InternalServerErrorException.class, () -> {
-                resource.getHandlinger(1);
-            });
+        assertThrows(InternalServerErrorException.class, () -> resource.getHandlinger(1));
     }
 
     @Test
@@ -113,9 +111,7 @@ class HandlingResourceTest {
             .belop(510)
             .handletidspunkt(new Date())
             .build();
-        assertThrows(InternalServerErrorException.class, () -> {
-                resource.nyhandling(handling);
-            });
+        assertThrows(InternalServerErrorException.class, () -> resource.nyhandling(handling));
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2024 Steinar Bang
+ * Copyright 2019-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,9 +86,7 @@ class HandleregProductionDbLiquibaseRunnerTest {
         var runner = new HandleregProductionDbLiquibaseRunner();
         runner.setLogService(logservice);
         runner.activate();
-        var e = assertThrows(
-            HandleregException.class,
-            () -> runner.insertMockData(connection, liquibase));
+        var e = assertThrows(HandleregException.class, () -> runner.insertMockData(connection, liquibase));
         assertThat(e.getMessage()).startsWith("Error inserting initial data in handlereg postgresql database");
     }
 

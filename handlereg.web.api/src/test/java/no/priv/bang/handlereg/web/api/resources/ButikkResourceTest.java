@@ -80,9 +80,7 @@ class ButikkResourceTest {
         resource.handlereg = handlereg;
 
         var butikk = Butikk.with().build();
-        assertThrows(InternalServerErrorException.class, () -> {
-                resource.leggTilButikk(butikk);
-            });
+        assertThrows(InternalServerErrorException.class, () -> resource.leggTilButikk(butikk));
     }
 
     @Test
@@ -109,9 +107,7 @@ class ButikkResourceTest {
         resource.handlereg = handlereg;
 
         var butikk = Butikk.with().build();
-        assertThrows(InternalServerErrorException.class, () -> {
-                resource.endreButikk(butikk);
-            });
+        assertThrows(InternalServerErrorException.class, () -> resource.endreButikk(butikk));
     }
 
 }
