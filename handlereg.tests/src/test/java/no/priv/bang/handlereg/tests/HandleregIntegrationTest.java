@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Steinar Bang
+ * Copyright 2021-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 @ExamReactorStrategy(PerClass.class)
 public class HandleregIntegrationTest extends KarafTestSupport {
 
+    @Override
     @Configuration
     public Option[] config() {
         final var handleregFeatureRepo = maven().groupId("no.priv.bang.handlereg").artifactId("karaf").version("LATEST").type("xml").classifier("features");
