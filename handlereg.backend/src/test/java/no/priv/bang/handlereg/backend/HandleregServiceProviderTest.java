@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2024 Steinar Bang
+ * Copyright 2019-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -259,9 +259,7 @@ class HandleregServiceProviderTest {
         handlereg.activate();
 
         assertEquals(0, logservice.getLogmessages().size());
-        assertThrows(HandleregException.class, () -> {
-                handlereg.finnButikker();
-            });
+        assertThrows(HandleregException.class, handlereg::finnButikker);
         assertEquals(1, logservice.getLogmessages().size());
     }
 
