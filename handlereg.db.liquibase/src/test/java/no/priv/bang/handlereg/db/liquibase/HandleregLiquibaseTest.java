@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2024 Steinar Bang
+ * Copyright 2018-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,20 +67,20 @@ class HandleregLiquibaseTest {
         assertEquals(4501, oldData.handlinger.size());
         var jdAccountid = addAccount(connection, "sb");
         var jadAccountid = addAccount(connection, "tlf");
-        var nærbutikkRekkefølge = 0;
-        var annenbutikkRekkefølge = 0;
+        var naerbutikkRekkefolge = 0;
+        var annenbutikkRekkefolge = 0;
         var gruppe = 1;
-        var rekkefølge = 0;
+        var rekkefolge = 0;
         for (var store : oldData.butikker) {
             var deaktivert = oldData.deaktivert.contains(store);
-            if (oldData.nærbutikker.contains(store)) {
+            if (oldData.naerbutikker.contains(store)) {
                 gruppe = 1;
-                rekkefølge = (nærbutikkRekkefølge += 10);
+                rekkefolge = (naerbutikkRekkefolge += 10);
             } else {
                 gruppe = 2;
-                rekkefølge = (annenbutikkRekkefølge += 10);
+                rekkefolge = (annenbutikkRekkefolge += 10);
             }
-            addStore(connection, store, gruppe, rekkefølge, deaktivert);
+            addStore(connection, store, gruppe, rekkefolge, deaktivert);
         }
 
         var accountids = new HashMap<>();
@@ -167,10 +167,10 @@ class HandleregLiquibaseTest {
                     var storename = results.getString(2);
                     var storeid = results.getInt(1);
                     var gruppe = results.getInt(3);
-                    var rekkefølge = results.getInt(4);
+                    var rekkefolge = results.getInt(4);
                     var deaktivert = results.getBoolean(5);
                     storeids.put(storename, storeid);
-                    storeWriter.println(String.format("insert into stores (store_name, gruppe, rekkefolge, deaktivert) values ('%s', %d, %d, %b);", storename, gruppe, rekkefølge, deaktivert));
+                    storeWriter.println(String.format("insert into stores (store_name, gruppe, rekkefolge, deaktivert) values ('%s', %d, %d, %b);", storename, gruppe, rekkefolge, deaktivert));
                 }
             }
         }
@@ -202,11 +202,11 @@ class HandleregLiquibaseTest {
         addTransaction(connection, accountid, storeid, 210.0);
     }
 
-    private void addStore(Connection connection, String storename, int gruppe, int rekkefølge, boolean deaktivert) throws Exception {
+    private void addStore(Connection connection, String storename, int gruppe, int rekkefolge, boolean deaktivert) throws Exception {
         try(var statement = connection.prepareStatement("insert into stores (store_name, gruppe, rekkefolge, deaktivert) values (?, ?, ?, ?)")) {
             statement.setString(1, storename);
             statement.setInt(2, gruppe);
-            statement.setInt(3, rekkefølge);
+            statement.setInt(3, rekkefolge);
             statement.setBoolean(4, deaktivert);
             statement.executeUpdate();
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Steinar Bang
+ * Copyright 2018-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,22 +24,22 @@ import java.util.Date;
 import java.util.List;
 
 public class OldData {
-    final List<String> nærbutikker = Arrays.asList(
-            "Meny Stovner Senter",
-            "COOP Prix Vestli",
-            "RIMI Stovner Senter",
-            "Sultan Marked Stovner",
-            "Rema 1000 Rommen",
-            "Rema1000 Haugenstua",
-            "ICA Linderud",
-            "COOP Mega Metrosenteret",
-            "OBS Triaden",
-            "Kiwi Lørenskog",
-            "Bunnpris Holumporten",
-            "Kiwi Stovner");
+    final List<String> naerbutikker = Arrays.asList(
+        "Meny Stovner Senter",
+        "COOP Prix Vestli",
+        "RIMI Stovner Senter",
+        "Sultan Marked Stovner",
+        "Rema 1000 Rommen",
+        "Rema1000 Haugenstua",
+        "ICA Linderud",
+        "COOP Mega Metrosenteret",
+        "OBS Triaden",
+        "Kiwi Lørenskog",
+        "Bunnpris Holumporten",
+        "Kiwi Stovner");
     final List<String> deaktivert = Arrays.asList(
-            "Ultra Stovner Senter",
-            "Annet");
+        "Ultra Stovner Senter",
+        "Annet");
     List<String> butikker = new ArrayList<>();
     List<Handling> handlinger = new ArrayList<>();
 
