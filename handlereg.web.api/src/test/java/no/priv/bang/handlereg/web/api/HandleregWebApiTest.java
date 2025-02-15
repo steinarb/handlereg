@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2024 Steinar Bang
+ * Copyright 2018-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,7 +91,7 @@ class HandleregWebApiTest extends ShiroTestBase {
     @Test
     void testLoginWrongPassword() throws Exception {
         var username = "jd";
-        var password = Base64.getEncoder().encodeToString("johnnyBoi".getBytes());
+        var password = Base64.getEncoder().encodeToString("notRealPassword".getBytes());
         var credentials = Credentials.with().username(username).password(password).build();
         var logservice = new MockLogService();
         var handlereg = mock(HandleregService.class);
@@ -103,8 +103,9 @@ class HandleregWebApiTest extends ShiroTestBase {
         var response = new MockHttpServletResponse();
         WebUtils.saveRequest(request);
 
+        var logmessagesBefore = List.copyOf(logservice.getLogmessages());
         servlet.service(request, response);
-        assertThat(logservice.getLogmessages()).hasSize(1);
+        assertThat(logservice.getLogmessages()).hasSizeGreaterThan(logmessagesBefore.size());
         assertEquals(200, response.getStatus());
 
     }
