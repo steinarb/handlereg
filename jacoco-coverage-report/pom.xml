@@ -83,6 +83,11 @@
                             <goal>report-aggregate</goal>
                         </goals>
                         <phase>verify</phase>
+                        <configuration>
+                            <excludes>
+                                <exclude>no/priv/bang/handlereg/backend/testdata/**</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
