@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.mockrunner.mock.web.MockHttpServletResponse;
 
+import no.priv.bang.handlereg.services.HandleregException;
 import no.priv.bang.osgi.service.mocks.logservice.MockLogService;
 
 import static org.mockito.Mockito.*;
@@ -128,6 +129,28 @@ public class HandleregServletTest {
         servlet.service(request, response);
 
         assertEquals(404, response.getErrorCode());
+    }
+
+    @Test
+    void readLinesFromClasspath() {
+        var logservice = new MockLogService();
+
+        var servlet = new HandleregServlet();
+        servlet.setLogService(logservice);
+
+        var routes = servlet.readLinesFromClasspath("testroutes.txt");
+
+        assertThat(routes).isNotEmpty().hasSize(4);
+    }
+
+    @Test
+    void readLinesFromClasspathWithFileNotFound() {
+        var logservice = new MockLogService();
+
+        var servlet = new HandleregServlet();
+        servlet.setLogService(logservice);
+
+        assertThrows(HandleregException.class, () -> servlet.readLinesFromClasspath("notfound.txt"));
     }
 
 }
