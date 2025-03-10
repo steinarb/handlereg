@@ -13,7 +13,7 @@ import { SET_BASENAME } from './actiontypes';
 import listenerMiddleware from './listeners';
 
 const baseUrl = Array.from(document.scripts).map(s => s.src).filter(src => src.includes('assets/'))[0].replace(/\/assets\/.*/, '');
-const basename = new URL(baseUrl).pathname;
+const basename = new URL(baseUrl).pathname.replace(/\/$/, '');
 const {
   createReduxHistory,
   routerMiddleware,
