@@ -16,13 +16,15 @@
 package no.priv.bang.handlereg.db.liquibase.test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.db.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+
+import org.assertj.db.type.AssertDbConnectionFactory;
 import org.junit.jupiter.api.Test;
 import org.ops4j.pax.jdbc.derby.impl.DerbyDataSourceFactory;
 import org.osgi.service.jdbc.DataSourceFactory;
@@ -36,17 +38,19 @@ class HandleregDerbyTestDatabaseTest {
     @Test
     void testCreateAndVerifySomeDataInSomeTables() throws Exception {
         var datasource = createDataSource("handlereg");
+        var assertjConnection = AssertDbConnectionFactory.of(datasource).create();
 
         var logservice = new MockLogService();
         var runner = new HandleregTestDbLiquibaseRunner();
         runner.setLogService(logservice);
         runner.activate();
         runner.prepare(datasource);
-        assertAccounts(datasource);
-        var originalNumberOfTransactions = findNumberOfTransactions(datasource);
+        var accounts = assertjConnection.table("accounts").build();
+        assertThat(accounts).exists().hasNumberOfRows(2).row(0).value("username").isEqualTo("jod");
+        var originalNumberOfTransactions = assertjConnection.table("transactions").build().getRowsList().size();
         addTransaction(datasource, 138);
-        var updatedNumberOfTransactions = findNumberOfTransactions(datasource);
-        assertEquals(originalNumberOfTransactions + 1, updatedNumberOfTransactions);
+        var updatedTransactions = assertjConnection.table("transactions").build();
+        assertThat(updatedTransactions.getRowsList()).hasSizeGreaterThan(originalNumberOfTransactions);
     }
 
     @Test
@@ -103,41 +107,11 @@ class HandleregDerbyTestDatabaseTest {
         assertThat(logservice.getLogmessages().get(0)).startsWith("[ERROR] Error updating schema in handlereg test database");
     }
 
-    private void assertAccounts(DataSource datasource) throws Exception {
-        try (var connection = datasource.getConnection()) {
-            try(var statement = connection.prepareStatement("select * from accounts")) {
-                try (var results = statement.executeQuery()) {
-                    assertAccount(results, "jod");
-                }
-            }
-        }
-    }
-
-    private void assertAccount(ResultSet results, String username) throws Exception {
-        assertTrue(results.next());
-        assertEquals(username, results.getString(2)); // column 1 is the id
-    }
-
     private void addTransaction(DataSource database, double amount) throws SQLException {
         try (var connection = database.getConnection()) {
             try(var statement = connection.prepareStatement("insert into transactions (account_id, store_id, transaction_amount) values (1, 1, ?)")) {
                 statement.setDouble(1, amount);
                 statement.executeUpdate();
-            }
-        }
-    }
-
-    private int findNumberOfTransactions(DataSource database) throws SQLException {
-        try (var connection = database.getConnection()) {
-            try(var statement = connection.prepareStatement("select * from transactions")) {
-                try (var results = statement.executeQuery()) {
-                    var count = 0;
-                    while(results.next()) {
-                        ++count;
-                    }
-
-                    return count;
-                }
             }
         }
     }

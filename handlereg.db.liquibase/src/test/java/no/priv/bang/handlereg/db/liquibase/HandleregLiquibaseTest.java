@@ -16,15 +16,19 @@
 package no.priv.bang.handlereg.db.liquibase;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.db.api.Assertions.assertThat;
 import java.sql.Connection;
 import java.io.PrintWriter;
 
-import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
+import org.assertj.db.type.AssertDbConnectionFactory;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.ops4j.pax.jdbc.derby.impl.DerbyDataSourceFactory;
@@ -35,23 +39,66 @@ class HandleregLiquibaseTest {
 
     @Test
     void testCreateSchema() throws Exception {
+        var datasource = createDataSource("handlereg");
+        var assertjConnection = AssertDbConnectionFactory.of(datasource).create();
         var handleregLiquibase = new HandleregLiquibase();
-        try(var connection = createConnection("handlereg")) {
+        try(var connection = datasource.getConnection()) {
             handleregLiquibase.createInitialSchema(connection);
         }
 
-        try(var connection = createConnection("handlereg")) {
+        var accounts1 = assertjConnection.table("accounts").build();
+        assertThat(accounts1).isEmpty();
+
+        try(var connection = datasource.getConnection()) {
             addAccounts(connection);
-            assertAccounts(connection);
-            addStores(connection);
-            assertStores(connection);
-            addTransactions(connection);
-            assertTransactions(connection);
-            addFavourites(connection);
-            assertFavourites(connection);
         }
 
-        try(var connection = createConnection("handlereg")) {
+        var accounts2 = assertjConnection.table("accounts").build();
+        assertThat(accounts2).hasNumberOfRowsGreaterThan(0);
+
+        var stores1 = assertjConnection.table("stores").build();
+        assertThat(stores1).isEmpty();
+
+        try(var connection = datasource.getConnection()) {
+            addStores(connection);
+        }
+
+        var stores2 = assertjConnection.table("stores").build();
+        assertThat(stores2).hasNumberOfRowsGreaterThan(0)
+            .row()
+            .value("store_name").isEqualTo("Joker Folldal");
+
+        var transactions1 = assertjConnection.request("select * from transactions join stores on transactions.store_id=stores.store_id join accounts on transactions.account_id=accounts.account_id").build();
+        assertThat(transactions1).isEmpty();
+
+        try(var connection = datasource.getConnection()) {
+            addTransactions(connection);
+        }
+
+        var transactions2 = assertjConnection.request("select * from transactions join stores on transactions.store_id=stores.store_id join accounts on transactions.account_id=accounts.account_id").build();
+        assertThat(transactions2).hasNumberOfRowsGreaterThan(0)
+            .row()
+            .value("transaction_amount").isEqualTo(210.0)
+            .value("store_name").isEqualTo("Joker Folldal")
+            .value("username").isEqualTo("admin");
+
+        var favourites1 = assertjConnection.table("favourites").build();
+        assertThat(favourites1).isEmpty();
+
+        try(var connection = datasource.getConnection()) {
+            addFavourites(connection);
+        }
+
+        var favourites2 = assertjConnection.table("favourites").build();
+        var accountid = findAccountId(datasource.getConnection(), "admin");
+        var storeid = findStoreIds(datasource.getConnection()).entrySet().stream().findFirst().get().getValue();
+        assertThat(favourites2).hasNumberOfRowsGreaterThan(0)
+            .row(0)
+            .value("account_id").isEqualTo(accountid)
+            .value("store_id").isEqualTo(storeid)
+            .value("rekkefolge").isEqualTo(10);
+
+        try(var connection = datasource.getConnection()) {
             handleregLiquibase.updateSchema(connection);
         }
     }
@@ -120,18 +167,6 @@ class HandleregLiquibaseTest {
         addAccount(connection, "admin");
     }
 
-    private void assertAccounts(Connection connection) throws Exception {
-        var sql = "select count(*) from accounts";
-        try(var statement = connection.prepareStatement(sql)) {
-            try(var results = statement.executeQuery()) {
-                if (results.next()) {
-                    var count = results.getInt(1);
-                    assertEquals(1, count);
-                }
-            }
-        }
-    }
-
     private int addAccount(Connection connection, String username) throws Exception {
         var sql = "insert into accounts (username) values (?)";
         try(var statement = connection.prepareStatement(sql)) {
@@ -182,20 +217,6 @@ class HandleregLiquibaseTest {
         addStore(connection, "Joker Folldal", 2, 10, false);
     }
 
-    private void assertStores(Connection connection) throws Exception {
-        try(var statement = connection.prepareStatement("select * from stores")) {
-            var resultset = statement.executeQuery();
-            assertStore(resultset, "Joker Folldal");
-        }
-    }
-
-    private void assertTransactions(Connection connection) throws Exception {
-        try(var statement = connection.prepareStatement("select * from transactions join stores on transactions.store_id=stores.store_id join accounts on transactions.account_id=accounts.account_id")) {
-            var results = statement.executeQuery();
-            assertTransaction(results, 210.0, "Joker Folldal", "admin");
-        }
-    }
-
     private void addTransactions(Connection connection) throws Exception {
         var accountid = 1;
         var storeid = 1;
@@ -212,11 +233,6 @@ class HandleregLiquibaseTest {
         }
     }
 
-    private void assertStore(ResultSet resultset, String storename) throws Exception {
-        assertTrue(resultset.next());
-        assertEquals(storename, resultset.getString(2));
-    }
-
     private void addTransaction(Connection connection, int accountid, int storeid, double amount) throws Exception {
         try(var statement = connection.prepareStatement("insert into transactions (account_id, store_id, transaction_amount) values (?, ?, ?)")) {
             statement.setInt(1, accountid);
@@ -224,13 +240,6 @@ class HandleregLiquibaseTest {
             statement.setDouble(3, amount);
             statement.executeUpdate();
         }
-    }
-
-    private void assertTransaction(ResultSet results, double amount, String storename, String username) throws Exception {
-        assertTrue(results.next());
-        assertEquals(amount, results.getDouble(5), 0.1);
-        assertEquals(storename, results.getString(7));
-        assertEquals(username, results.getString(12));
     }
 
     private void addFavourites(Connection connection) throws Exception {
@@ -248,29 +257,16 @@ class HandleregLiquibaseTest {
         }
     }
 
-    private void assertFavourites(Connection connection) throws Exception {
-        var accountid = findAccountId(connection, "admin");
-        var storeid = findStoreIds(connection).entrySet().stream().findFirst().get().getValue();
-        var rekkefolge = 10;
-        try(var statement = connection.prepareStatement("select * from favourites")) {
-            var results = statement.executeQuery();
-            assertFavourite(results, accountid, storeid, rekkefolge);
-        }
-
-    }
-
-    private void assertFavourite(ResultSet results, int accountid, int storeid, int rekkefolge) throws Exception {
-        assertTrue(results.next());
-        assertEquals(accountid, results.getInt(2));
-        assertEquals(storeid, results.getInt(3));
-        assertEquals(rekkefolge, results.getInt(4));
-    }
-
     private Connection createConnection(String dbname) throws Exception {
+        var dataSource = createDataSource(dbname);
+        return dataSource.getConnection();
+    }
+
+    private DataSource createDataSource(String dbname) throws SQLException {
         var properties = new Properties();
         properties.setProperty(DataSourceFactory.JDBC_URL, "jdbc:derby:memory:" + dbname + ";create=true");
         var dataSource = derbyDataSourceFactory.createDataSource(properties);
-        return dataSource.getConnection();
+        return dataSource;
     }
 
 }

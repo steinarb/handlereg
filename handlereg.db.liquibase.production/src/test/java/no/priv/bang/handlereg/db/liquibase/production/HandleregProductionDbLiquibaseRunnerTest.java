@@ -16,15 +16,17 @@
 package no.priv.bang.handlereg.db.liquibase.production;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.db.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+
+import org.assertj.db.type.AssertDbConnectionFactory;
 import org.junit.jupiter.api.Test;
 import org.ops4j.pax.jdbc.derby.impl.DerbyDataSourceFactory;
 import org.osgi.service.jdbc.DataSourceFactory;
@@ -41,6 +43,7 @@ class HandleregProductionDbLiquibaseRunnerTest {
         var properties = new Properties();
         properties.setProperty(DataSourceFactory.JDBC_URL, "jdbc:derby:memory:handlereg;create=true");
         var datasource = dataSourceFactory.createDataSource(properties);
+        var assertjConnection = AssertDbConnectionFactory.of(datasource).create();
 
         var logservice = new MockLogService();
         var runner = new HandleregProductionDbLiquibaseRunner();
@@ -48,12 +51,13 @@ class HandleregProductionDbLiquibaseRunnerTest {
         runner.activate();
         runner.prepare(datasource);
         var jdId = addAccount(datasource, "jd");
-        assertAccounts(datasource);
+        var accounts = assertjConnection.table("accounts").build();
+        assertThat(accounts).exists().hasNumberOfRows(1).row(0).value("username").isEqualTo("jd");
         var storeid = addStore(datasource, "Spar Næroset");
-        var originalNumberOfTransactions = findNumberOfTransactions(datasource);
+        var originalNumberOfTransactions = assertjConnection.table("transactions").build().getRowsList().size();
         addTransaction(datasource, jdId, storeid, 138);
-        var updatedNumberOfTransactions = findNumberOfTransactions(datasource);
-        assertEquals(originalNumberOfTransactions + 1, updatedNumberOfTransactions);
+        var updatedTransactions = assertjConnection.table("transactions").build();
+        assertThat(updatedTransactions.getRowsList()).hasSizeGreaterThan(originalNumberOfTransactions);
     }
 
     @Test
@@ -110,21 +114,6 @@ class HandleregProductionDbLiquibaseRunnerTest {
         assertThat(logservice.getLogmessages().get(0)).startsWith("[ERROR] Failed to update schema of handlereg PostgreSQL database");
     }
 
-    private void assertAccounts(DataSource datasource) throws Exception {
-        try (var connection = datasource.getConnection()) {
-            try(var statement = connection.prepareStatement("select * from accounts")) {
-                try (var results = statement.executeQuery()) {
-                    assertAccount(results, "jd");
-                }
-            }
-        }
-    }
-
-    private void assertAccount(ResultSet results, String username) throws Exception {
-        assertTrue(results.next());
-        assertEquals(username, results.getString(2)); // column 1 is the id
-    }
-
     private int addAccount(DataSource datasource, String username) throws Exception {
         try (var connection = datasource.getConnection()) {
             try(var statement = connection.prepareStatement("insert into accounts (username) values (?)")) {
@@ -172,21 +161,6 @@ class HandleregProductionDbLiquibaseRunnerTest {
                 statement.setInt(2, storeid);
                 statement.setDouble(3, amount);
                 statement.executeUpdate();
-            }
-        }
-    }
-
-    private int findNumberOfTransactions(DataSource datasource) throws SQLException {
-        try (var connection = datasource.getConnection()) {
-            try(var statement = connection.prepareStatement("select * from transactions")) {
-                try (var results = statement.executeQuery()) {
-                    var count = 0;
-                    while(results.next()) {
-                        ++count;
-                    }
-
-                    return count;
-                }
             }
         }
     }
