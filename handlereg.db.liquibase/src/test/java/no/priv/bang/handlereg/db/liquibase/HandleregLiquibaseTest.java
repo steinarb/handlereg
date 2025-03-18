@@ -49,9 +49,7 @@ class HandleregLiquibaseTest {
         var accounts1 = assertjConnection.table("accounts").build();
         assertThat(accounts1).isEmpty();
 
-        try(var connection = datasource.getConnection()) {
-            addAccounts(connection);
-        }
+        addAccounts(datasource);
 
         var accounts2 = assertjConnection.table("accounts").build();
         assertThat(accounts2).hasNumberOfRowsGreaterThan(0);
@@ -59,9 +57,7 @@ class HandleregLiquibaseTest {
         var stores1 = assertjConnection.table("stores").build();
         assertThat(stores1).isEmpty();
 
-        try(var connection = datasource.getConnection()) {
-            addStores(connection);
-        }
+        addStores(datasource);
 
         var stores2 = assertjConnection.table("stores").build();
         assertThat(stores2).hasNumberOfRowsGreaterThan(0)
@@ -71,9 +67,7 @@ class HandleregLiquibaseTest {
         var transactions1 = assertjConnection.request("select * from transactions join stores on transactions.store_id=stores.store_id join accounts on transactions.account_id=accounts.account_id").build();
         assertThat(transactions1).isEmpty();
 
-        try(var connection = datasource.getConnection()) {
-            addTransactions(connection);
-        }
+        addTransactions(datasource);
 
         var transactions2 = assertjConnection.request("select * from transactions join stores on transactions.store_id=stores.store_id join accounts on transactions.account_id=accounts.account_id").build();
         assertThat(transactions2).hasNumberOfRowsGreaterThan(0)
@@ -85,9 +79,7 @@ class HandleregLiquibaseTest {
         var favourites1 = assertjConnection.table("favourites").build();
         assertThat(favourites1).isEmpty();
 
-        try(var connection = datasource.getConnection()) {
-            addFavourites(connection);
-        }
+        addFavourites(datasource);
 
         var favourites2 = assertjConnection.table("favourites").build();
         var accountid = findAccountId(datasource.getConnection(), "admin");
@@ -163,8 +155,10 @@ class HandleregLiquibaseTest {
         }
     }
 
-    private void addAccounts(Connection connection) throws Exception {
-        addAccount(connection, "admin");
+    private void addAccounts(DataSource datasource) throws Exception {
+        try(var connection = datasource.getConnection()) {
+            addAccount(connection, "admin");
+        }
     }
 
     private int addAccount(Connection connection, String username) throws Exception {
@@ -213,14 +207,18 @@ class HandleregLiquibaseTest {
         return storeids;
     }
 
-    private void addStores(Connection connection) throws Exception {
-        addStore(connection, "Joker Folldal", 2, 10, false);
+    private void addStores(DataSource datasource) throws Exception {
+        try(var connection = datasource.getConnection()) {
+            addStore(connection, "Joker Folldal", 2, 10, false);
+        }
     }
 
-    private void addTransactions(Connection connection) throws Exception {
-        var accountid = 1;
-        var storeid = 1;
-        addTransaction(connection, accountid, storeid, 210.0);
+    private void addTransactions(DataSource datasource) throws Exception {
+        try(var connection = datasource.getConnection()) {
+            var accountid = 1;
+            var storeid = 1;
+            addTransaction(connection, accountid, storeid, 210.0);
+        }
     }
 
     private void addStore(Connection connection, String storename, int gruppe, int rekkefolge, boolean deaktivert) throws Exception {
@@ -242,10 +240,12 @@ class HandleregLiquibaseTest {
         }
     }
 
-    private void addFavourites(Connection connection) throws Exception {
-        var accountid = findAccountId(connection, "admin");
-        var storeid = findStoreIds(connection).entrySet().stream().findFirst().get().getValue();
-        addFavourite(connection, accountid, storeid, 10);
+    private void addFavourites(DataSource datasource) throws Exception {
+        try(var connection = datasource.getConnection()) {
+            var accountid = findAccountId(connection, "admin");
+            var storeid = findStoreIds(connection).entrySet().stream().findFirst().get().getValue();
+            addFavourite(connection, accountid, storeid, 10);
+        }
     }
 
     private void addFavourite(Connection connection, int accountid, int storeid, int rekkefolge) throws Exception {
