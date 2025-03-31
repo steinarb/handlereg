@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
+import { HistoryRouter as Router } from 'redux-first-history/rr6';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { configureStore } from '@reduxjs/toolkit';
@@ -31,7 +32,9 @@ const root = createRoot(container);
 
 root.render(
     <Provider store={store}>
-        <App history={history} basename={basename} />
+        <Router history={history} basename={basename}>
+            <App />
+        </Router>
     </Provider>,
 );
 
