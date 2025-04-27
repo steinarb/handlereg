@@ -29,63 +29,58 @@
         <dependency>
             <groupId>no.priv.bang.handlereg</groupId>
             <artifactId>handlereg.db.liquibase</artifactId>
-            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>no.priv.bang.handlereg</groupId>
             <artifactId>handlereg.db.liquibase.test</artifactId>
-            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>no.priv.bang.handlereg</groupId>
             <artifactId>handlereg.db.liquibase.production</artifactId>
-            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>no.priv.bang.handlereg</groupId>
             <artifactId>handlereg.services</artifactId>
-            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.priv.bang.handlereg</groupId>
+            <artifactId>handlereg.services</artifactId>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>no.priv.bang.handlereg</groupId>
             <artifactId>handlereg.backend</artifactId>
-            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>no.priv.bang.handlereg</groupId>
             <artifactId>handlereg.backend.testdata</artifactId>
-            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>no.priv.bang.handlereg</groupId>
             <artifactId>handlereg.web.security</artifactId>
-            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>no.priv.bang.handlereg</groupId>
             <artifactId>handlereg.web.api</artifactId>
-            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
         <dependency>
             <groupId>no.priv.bang.handlereg</groupId>
             <artifactId>handlereg.web.frontend</artifactId>
-            <version>${project.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
