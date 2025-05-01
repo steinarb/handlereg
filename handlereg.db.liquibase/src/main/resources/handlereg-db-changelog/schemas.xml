@@ -13,5 +13,5 @@
     <!-- See the License for the specific language governing permissions and limitations -->
     <!-- under the License.                                                              -->
 
-    <namespace ns="http://www.liquibase.org/xml/ns/dbchangelog" uri="dbchangelog-3.5.rnc" />
+    <namespace ns="http://www.liquibase.org/xml/ns/dbchangelog" uri="dbchangelog-4.31.rnc" />
 </locatingRules>
