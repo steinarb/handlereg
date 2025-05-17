@@ -29,6 +29,7 @@ import org.apache.shiro.web.env.IniWebEnvironment;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import no.priv.bang.authservice.definitions.AuthserviceShiroConfigService;
 import no.priv.bang.authservice.definitions.CipherKeyService;
 
 class HandleregShiroFilterTest {
@@ -36,12 +37,14 @@ class HandleregShiroFilterTest {
     private static Realm realm;
     private static SessionDAO session;
     private static CipherKeyService cipherKeyService;
+    private static AuthserviceShiroConfigService shiroConfigService;
 
     @BeforeAll
     static void beforeAll() {
         realm = getRealmFromIniFile();
         session = new MemorySessionDAO();
         cipherKeyService = mock(CipherKeyService.class);
+        shiroConfigService = mock(AuthserviceShiroConfigService.class);
     }
 
     @Test
@@ -50,6 +53,7 @@ class HandleregShiroFilterTest {
         filter.setRealm(realm);
         filter.setSession(session);
         filter.setCipherKeyService(cipherKeyService);
+        filter.setShiroConfigService(shiroConfigService);
         filter.activate();
         var securitymanager = filter.getSecurityManager();
         var token = new UsernamePasswordToken("jad", "1ad".toCharArray());
