@@ -50,15 +50,7 @@ class HandleregServiceProviderTest {
 
     @BeforeAll
     static void commonSetupForAllTests() throws Exception {
-        var derbyDataSourceFactory = new DerbyDataSourceFactory();
-        var properties = new Properties();
-        properties.setProperty(DataSourceFactory.JDBC_URL, "jdbc:derby:memory:handlereg;create=true");
-        datasource = derbyDataSourceFactory.createDataSource(properties);
-        var logservice = new MockLogService();
-        var runner = new HandleregTestDbLiquibaseRunner();
-        runner.setLogService(logservice);
-        runner.activate();
-        runner.prepare(datasource);
+        datasource = createDataSourceAndAddSchema("handlereg");
     }
 
     @Test
@@ -205,6 +197,20 @@ class HandleregServiceProviderTest {
     }
 
     @Test
+    void testFinnButikker() {
+        var logservice = new MockLogService();
+        var useradmin = mock(UserManagementService.class);
+        var handlereg = new HandleregServiceProvider();
+        handlereg.setLogservice(logservice);
+        handlereg.setDatasource(datasource);
+        handlereg.setUseradmin(useradmin);
+        handlereg.activate();
+
+        var butikker = handlereg.finnButikker();
+        assertEquals(133, butikker.size());
+    }
+
+    @Test
     void testRegistrerHandlingMedDbFeil() throws Exception {
         var logservice = new MockLogService();
         var mockdb = createMockDbThrowingException();
@@ -225,20 +231,6 @@ class HandleregServiceProviderTest {
             .handletidspunkt(now)
             .build();
         assertThrows(HandleregException.class, () -> handlereg.registrerHandling(nyHandling));
-    }
-
-    @Test
-    void testFinnButikker() {
-        var logservice = new MockLogService();
-        var useradmin = mock(UserManagementService.class);
-        var handlereg = new HandleregServiceProvider();
-        handlereg.setLogservice(logservice);
-        handlereg.setDatasource(datasource);
-        handlereg.setUseradmin(useradmin);
-        handlereg.activate();
-
-        var butikker = handlereg.finnButikker();
-        assertEquals(133, butikker.size());
     }
 
     @Test
@@ -625,6 +617,23 @@ class HandleregServiceProviderTest {
         when(connection.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(statement);
         when(mockdb.getConnection()).thenReturn(connection);
         return mockdb;
+    }
+
+    private static DataSource createDataSource(String dbname) throws SQLException {
+        var derbyDataSourceFactory = new DerbyDataSourceFactory();
+        var properties = new Properties();
+        properties.setProperty(DataSourceFactory.JDBC_URL, "jdbc:derby:memory:" + dbname + ";create=true");
+        return derbyDataSourceFactory.createDataSource(properties);
+    }
+
+    private static DataSource createDataSourceAndAddSchema(String dbname) throws SQLException {
+        var datasource = createDataSource(dbname);
+        var logservice = new MockLogService();
+        var runner = new HandleregTestDbLiquibaseRunner();
+        runner.setLogService(logservice);
+        runner.activate();
+        runner.prepare(datasource);
+        return datasource;
     }
 
     private DataSource createMockDbThrowingException() throws SQLException {
