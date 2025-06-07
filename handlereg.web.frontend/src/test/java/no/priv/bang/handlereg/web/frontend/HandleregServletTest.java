@@ -32,10 +32,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.Test;
 
-public class HandleregServletTest {
+class HandleregServletTest {
 
     @Test
-    public void testGet() throws Exception {
+    void testGet() throws Exception {
         var logservice = new MockLogService();
         var servlet = new HandleregServlet();
         var servletConfig = mock(ServletConfig.class);
@@ -57,7 +57,7 @@ public class HandleregServletTest {
 
 
     @Test
-    public void testDoGetAddTrailingSlash() throws Exception {
+    void testDoGetAddTrailingSlash() throws Exception {
         var logservice = new MockLogService();
         var request = mock(HttpServletRequest.class);
         when(request.getMethod()).thenReturn("GET");
@@ -74,7 +74,7 @@ public class HandleregServletTest {
     }
 
     @Test
-    public void testDoGetResponseThrowsIOException() throws Exception {
+    void testDoGetResponseThrowsIOException() throws Exception {
         var logservice = new MockLogService();
         var request = mock(HttpServletRequest.class);
         when(request.getMethod()).thenReturn("GET");
@@ -95,7 +95,7 @@ public class HandleregServletTest {
     }
 
     @Test
-    public void testDoGetResponseStreamMethodThrowsIOException() throws Exception {
+    void testDoGetResponseStreamMethodThrowsIOException() throws Exception {
         var logservice = new MockLogService();
         var request = mock(HttpServletRequest.class);
         when(request.getMethod()).thenReturn("GET");
@@ -114,7 +114,7 @@ public class HandleregServletTest {
     }
 
     @Test
-    public void testDoGetResourceNotFound() throws Exception {
+    void testDoGetResourceNotFound() throws Exception {
         var logservice = new MockLogService();
         var request = mock(HttpServletRequest.class);
         when(request.getMethod()).thenReturn("GET");
