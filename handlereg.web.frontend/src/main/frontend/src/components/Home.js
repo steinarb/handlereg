@@ -18,7 +18,7 @@ import Kvittering from './Kvittering';
 
 export default function Home() {
     const { data: oversikt = {}, isSuccess: oversiktIsSuccess } = useGetOversiktQuery();
-    const { data: handlinger, isSuccess: handlingerIsSuccess } = useGetHandlingerInfiniteQuery(oversikt.accountid, { skip: !oversiktIsSuccess });
+    const { data: handlinger, isSuccess: handlingerIsSuccess, fetchNextPage } = useGetHandlingerInfiniteQuery(oversikt.accountid, { skip: !oversiktIsSuccess });
     const username = oversikt.brukernavn;
     const { data: butikker = [] } = useGetButikkerQuery();
     const [ postNyhandling ] = usePostNyhandlingMutation();
@@ -29,6 +29,7 @@ export default function Home() {
     const belop = useSelector(state => state.belop).toString();
     const dispatch = useDispatch();
 
+    const onNextPageClicked = async () => fetchNextPage();
     const onRegistrerHandlingClicked = async () => {
         await postNyhandling({ storeId, belop, handletidspunkt, username })
     }
@@ -104,6 +105,9 @@ export default function Home() {
                             ))}
                         </tbody>
                     </table>
+                </div>
+                <div className="inline-flex">
+                    <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" onClick={onNextPageClicked}>Neste</button>
                 </div>
             </Container>
         </div>
