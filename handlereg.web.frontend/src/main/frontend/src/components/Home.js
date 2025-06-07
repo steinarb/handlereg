@@ -41,28 +41,12 @@ export default function Home() {
                 <StyledLinkRight to="/hurtigregistrering">Hurtig</StyledLinkRight>
             </nav>
             <Container>
-                <p>Hei {oversikt.fornavn}!</p>
-                <p>Dine 5 siste innkjøp, er:</p>
-                <div>
-                    <table className="table-auto border border-slate-400 w-full">
-                        <thead className="bg-slate-50">
-                            <tr className="py-4">
-                                <th className="border border-slate-300">Dato</th>
-                                <th className="border border-slate-300">Beløp</th>
-                                <th className="border border-slate-300">Butikk</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {handlinger.map((handling) =>
-                                            <tr key={handling.transactionId}>
-                                                <td className="border border-slate-300">{new Date(handling.handletidspunkt).toISOString().split('T')[0]}</td>
-                                                <td className="border border-slate-300">{handling.belop}</td>
-                                                <td className="border border-slate-300">{handling.butikk}</td>
-                                            </tr>
-                                           )}
-                        </tbody>
-                    </table>
-                </div>
+                <StyledLinkRight className="flex justify-end" to="/favoritter">Favoritter</StyledLinkRight>
+                <StyledLinkRight className="flex justify-end mb-1" to="/statistikk">Statistikk</StyledLinkRight>
+                <StyledLinkRight className="flex justify-end mb-1" to="/nybutikk">Ny butikk</StyledLinkRight>
+                <StyledLinkRight className="flex justify-end mb-1" to="/endrebutikk">Endre butikk</StyledLinkRight>
+            </Container>
+            <Container>
                 <form className="w-full max-w-lg mt-4 grid grid-flow-row auto-rows-max" onSubmit={ e => { e.preventDefault(); }}>
                     <div className="columns-2 mb-2">
                         <label className="w-full ms-5 block uppercase text-gray-700 font-bold" htmlFor="amount">Nytt beløp</label>
@@ -102,12 +86,27 @@ export default function Home() {
                     </div>
                 </form>
                 <Kvittering/>
-            </Container>
-            <Container>
-                <StyledLinkRight className="flex justify-end mb-1" to="/statistikk">Statistikk</StyledLinkRight>
-                <StyledLinkRight className="flex justify-end mb-1" to="/nybutikk">Ny butikk</StyledLinkRight>
-                <StyledLinkRight className="flex justify-end mb-1" to="/endrebutikk">Endre butikk</StyledLinkRight>
-                <StyledLinkRight className="flex justify-end" to="/favoritter">Favoritter</StyledLinkRight>
+                <p>Dine siste innkjøp, er:</p>
+                <div>
+                    <table className="table-auto border border-slate-400 w-full">
+                        <thead className="bg-slate-50">
+                            <tr className="py-4">
+                                <th className="border border-slate-300">Dato</th>
+                                <th className="border border-slate-300">Beløp</th>
+                                <th className="border border-slate-300">Butikk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {handlinger.map((handling) =>
+                                            <tr key={handling.transactionId}>
+                                                <td className="border border-slate-300">{new Date(handling.handletidspunkt).toISOString().split('T')[0]}</td>
+                                                <td className="border border-slate-300">{handling.belop}</td>
+                                                <td className="border border-slate-300">{handling.butikk}</td>
+                                            </tr>
+                                           )}
+                        </tbody>
+                    </table>
+                </div>
             </Container>
         </div>
     );
