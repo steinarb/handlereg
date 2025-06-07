@@ -86,9 +86,7 @@ class HandleregServiceProviderTest {
         handlereg.setUseradmin(useradmin);
         handlereg.activate();
 
-        assertEquals(0, logservice.getLogmessages().size());
         assertThrows(HandleregException.class, () -> handlereg.finnOversikt("jd"));
-        assertEquals(1, logservice.getLogmessages().size());
     }
 
     @Test
@@ -140,9 +138,7 @@ class HandleregServiceProviderTest {
         handlereg.setUseradmin(useradmin);
         handlereg.activate();
 
-        assertEquals(0, logservice.getLogmessages().size());
         assertThrows(HandleregException.class, () -> handlereg.findLastTransactions(1));
-        assertEquals(1, logservice.getLogmessages().size());
     }
 
     @Test
@@ -244,9 +240,7 @@ class HandleregServiceProviderTest {
         handlereg.setUseradmin(useradmin);
         handlereg.activate();
 
-        assertEquals(0, logservice.getLogmessages().size());
         assertThrows(HandleregException.class, handlereg::finnButikker);
-        assertEquals(1, logservice.getLogmessages().size());
     }
 
     @Test
@@ -321,6 +315,22 @@ class HandleregServiceProviderTest {
     }
 
     @Test
+    void testEndreButikkMedDbfeil() throws Exception {
+        var logservice = new MockLogService();
+        var mockdb = createMockDbThrowingException();
+        var useradmin = mock(UserManagementService.class);
+        var handlereg = new HandleregServiceProvider();
+        handlereg.setLogservice(logservice);
+        handlereg.setDatasource(mockdb);
+        handlereg.setUseradmin(useradmin);
+        handlereg.activate();
+
+        var dummyButikk = Butikk.with().build();
+        var e = assertThrows(HandleregException.class, () -> handlereg.endreButikk(dummyButikk));
+        assertThat(e.getMessage()).startsWith("Failed to insert store");
+    }
+
+    @Test
     void testFinnNesteLedigeRekkefolgeForGruppe() throws Exception {
         var logservice = new MockLogService();
         var handlereg = new HandleregServiceProvider();
@@ -382,6 +392,23 @@ class HandleregServiceProviderTest {
     }
 
     @Test
+    void testSumOverButikkMedDbFeil() throws Exception {
+        var logservice = new MockLogService();
+        var mockdb = createMockDbThrowingException();
+        var useradmin = mock(UserManagementService.class);
+        var handlereg = new HandleregServiceProvider();
+        handlereg.setLogservice(logservice);
+        handlereg.setDatasource(mockdb);
+        handlereg.setUseradmin(useradmin);
+        handlereg.activate();
+
+        assertThat(logservice.getLogmessages()).isEmpty(); // verify precondition
+        var sumOverButikk = handlereg.sumOverButikk();
+        assertThat(sumOverButikk).isEmpty();
+        assertThat(logservice.getLogmessages()).isNotEmpty(); // verify warning has been logged
+    }
+
+    @Test
     void testAntallHandlerIButikk() {
         var logservice = new MockLogService();
         var useradmin = mock(UserManagementService.class);
@@ -393,6 +420,23 @@ class HandleregServiceProviderTest {
 
         var antallHandlerIButikk = handlereg.antallHandlingerIButikk();
         assertThat(antallHandlerIButikk).isNotEmpty();
+    }
+
+    @Test
+    void testAntallHandlerIButikkMedDbFeil() throws Exception {
+        var logservice = new MockLogService();
+        var mockdb = createMockDbThrowingException();
+        var useradmin = mock(UserManagementService.class);
+        var handlereg = new HandleregServiceProvider();
+        handlereg.setLogservice(logservice);
+        handlereg.setDatasource(mockdb);
+        handlereg.setUseradmin(useradmin);
+        handlereg.activate();
+
+        assertThat(logservice.getLogmessages()).isEmpty(); // verify precondition
+        var antallHandlerIButikk = handlereg.antallHandlingerIButikk();
+        assertThat(antallHandlerIButikk).isEmpty();
+        assertThat(logservice.getLogmessages()).isNotEmpty(); // verify warning has been logged
     }
 
     @Test
@@ -410,6 +454,23 @@ class HandleregServiceProviderTest {
     }
 
     @Test
+    void testSisteHandelIButikkMedDbFeil() throws Exception {
+        var logservice = new MockLogService();
+        var mockdb = createMockDbThrowingException();
+        var useradmin = mock(UserManagementService.class);
+        var handlereg = new HandleregServiceProvider();
+        handlereg.setLogservice(logservice);
+        handlereg.setDatasource(mockdb);
+        handlereg.setUseradmin(useradmin);
+        handlereg.activate();
+
+        assertThat(logservice.getLogmessages()).isEmpty(); // verify precondition
+        var sisteHandelIButikk = handlereg.sisteHandelIButikk();
+        assertThat(sisteHandelIButikk).isEmpty();
+        assertThat(logservice.getLogmessages()).isNotEmpty(); // verify warning has been logged
+    }
+
+    @Test
     void testTotaltHandlebelopPrAar() {
         var logservice = new MockLogService();
         var useradmin = mock(UserManagementService.class);
@@ -424,6 +485,23 @@ class HandleregServiceProviderTest {
     }
 
     @Test
+    void testTotaltHandlebelopPrAarMedDbFeil() throws Exception {
+        var logservice = new MockLogService();
+        var mockdb = createMockDbThrowingException();
+        var useradmin = mock(UserManagementService.class);
+        var handlereg = new HandleregServiceProvider();
+        handlereg.setLogservice(logservice);
+        handlereg.setDatasource(mockdb);
+        handlereg.setUseradmin(useradmin);
+        handlereg.activate();
+
+        assertThat(logservice.getLogmessages()).isEmpty(); // verify precondition
+        var totaltHandlebelopPrAar = handlereg.totaltHandlebelopPrAar();
+        assertThat(totaltHandlebelopPrAar).isEmpty();
+        assertThat(logservice.getLogmessages()).isNotEmpty(); // verify warning has been logged
+    }
+
+    @Test
     void testTotaltHandlebelopPrAarOgMaaned() {
         var logservice = new MockLogService();
         var useradmin = mock(UserManagementService.class);
@@ -435,6 +513,23 @@ class HandleregServiceProviderTest {
 
         var totaltHandlebelopPrAarOgMaaned = handlereg.totaltHandlebelopPrAarOgMaaned();
         assertThat(totaltHandlebelopPrAarOgMaaned).isNotEmpty();
+    }
+
+    @Test
+    void testTotaltHandlebelopPrAarOgMaanedMedDbFeil() throws Exception {
+        var logservice = new MockLogService();
+        var mockdb = createMockDbThrowingException();
+        var useradmin = mock(UserManagementService.class);
+        var handlereg = new HandleregServiceProvider();
+        handlereg.setLogservice(logservice);
+        handlereg.setDatasource(mockdb);
+        handlereg.setUseradmin(useradmin);
+        handlereg.activate();
+
+        assertThat(logservice.getLogmessages()).isEmpty(); // verify precondition
+        var totaltHandlebelopPrAarOgMaaned = handlereg.totaltHandlebelopPrAarOgMaaned();
+        assertThat(totaltHandlebelopPrAarOgMaaned).isEmpty();
+        assertThat(logservice.getLogmessages()).isNotEmpty(); // verify warning has been logged
     }
 
     @Test
@@ -503,7 +598,6 @@ class HandleregServiceProviderTest {
 
         var exception = assertThrows(HandleregException.class, () -> handlereg.finnFavoritter("jod"));
         assertThat(exception.getMessage()).startsWith("Failed to retrieve a list of favourites");
-        assertThat(logservice.getLogmessages()).isNotEmpty();
     }
 
     @Test
@@ -520,7 +614,6 @@ class HandleregServiceProviderTest {
 
         var exception = assertThrows(HandleregException.class, () -> handlereg.leggTilFavoritt(null));
         assertThat(exception.getMessage()).startsWith("Failed to insert a new favourite");
-        assertThat(logservice.getLogmessages()).isNotEmpty();
     }
 
     @Test
@@ -537,7 +630,6 @@ class HandleregServiceProviderTest {
 
         var exception = assertThrows(HandleregException.class, () -> handlereg.slettFavoritt(null));
         assertThat(exception.getMessage()).startsWith("Failed to delete favourite");
-        assertThat(logservice.getLogmessages()).isNotEmpty();
     }
 
     @Test
@@ -554,7 +646,6 @@ class HandleregServiceProviderTest {
 
         var exception = assertThrows(HandleregException.class, () -> handlereg.byttRekkefolge(null));
         assertThat(exception.getMessage()).startsWith("Failed to swap order of favourite");
-        assertThat(logservice.getLogmessages()).isNotEmpty();
     }
 
     @Test
@@ -571,7 +662,6 @@ class HandleregServiceProviderTest {
 
         var exception = assertThrows(HandleregException.class, () -> handlereg.finnFavoritterMedAccountid(1));
         assertThat(exception.getMessage()).startsWith("Failed to retrieve a list of favourites");
-        assertThat(logservice.getLogmessages()).isNotEmpty();
     }
 
     @Test

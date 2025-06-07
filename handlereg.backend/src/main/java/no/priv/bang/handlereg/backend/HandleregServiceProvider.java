@@ -48,6 +48,8 @@ import no.priv.bang.handlereg.services.SumYearMonth;
 import no.priv.bang.handlereg.services.Transaction;
 import no.priv.bang.osgiservice.users.Role;
 import no.priv.bang.osgiservice.users.UserManagementService;
+
+import static java.lang.String.format;
 import static no.priv.bang.handlereg.services.HandleregConstants.*;
 
 @Component(service=HandleregService.class, immediate=true)
@@ -148,9 +150,7 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            var message = String.format("Failed to retrieve an Oversikt for user %s", brukernavn);
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException(format("Failed to retrieve an Oversikt for user %s", brukernavn), e);
         }
     }
 
@@ -175,10 +175,9 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            var message = String.format("Failed to retrieve a list of transactions for user %d", userId);
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException(format("Failed to retrieve a list of transactions for account number %d", userId), e);
         }
+
         return handlinger;
     }
 
@@ -196,9 +195,7 @@ public class HandleregServiceProvider implements HandleregService {
                 return finnOversikt(handling.username());
             }
         } catch (SQLException e) {
-            var message = String.format("Failed to register purchase for user %s", handling.username());
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException(format("Failed to register purchase for user %s", handling.username()), e);
         }
     }
 
@@ -221,9 +218,7 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            String message = "Failed to retrieve a list of stores";
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException("Failed to retrieve a list of stores", e);
         }
         return butikker;
     }
@@ -245,9 +240,7 @@ public class HandleregServiceProvider implements HandleregService {
                 return finnButikker();
             }
         } catch (SQLException e) {
-            var message = String.format("Failed to insert store \"%s\" in group %d, sort order %s", butikkSomSkalEndres.butikknavn(), gruppe, rekkefolge);
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException(format("Failed to insert store \"%s\" in group %d, sort order %s", butikkSomSkalEndres.butikknavn(), gruppe, rekkefolge), e);
         }
     }
 
@@ -265,9 +258,7 @@ public class HandleregServiceProvider implements HandleregService {
                 return finnButikker();
             }
         } catch (SQLException e) {
-            var message = String.format("Failed to modify store \"%s\" in group %d, sort order %s", nybutikk.butikknavn(), gruppe, rekkefolge);
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException(format("Failed to modify store \"%s\" in group %d, sort order %s", nybutikk.butikknavn(), gruppe, rekkefolge), e);
         }
     }
 
@@ -294,8 +285,7 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            var message = "Got error when retrieving sum over stores";
-            logWarning(message, e);
+            logWarning("Got error when retrieving sum over stores", e);
         }
         return sumOverButikk;
     }
@@ -323,8 +313,7 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            var message = "Got error when retrieving count of the number of times store have been visited";
-            logWarning(message, e);
+            logWarning("Got error when retrieving count of the number of times store have been visited", e);
         }
         return antallHandlerIButikk;
     }
@@ -352,8 +341,7 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            var message = "Got error when retrieving last visit times for stores";
-            logWarning(message, e);
+            logWarning("Got error when retrieving last visit times for stores", e);
         }
         return sisteHandelIButikk;
     }
@@ -374,8 +362,7 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            var message = "Got error when retrieving total amount used per year";
-            logWarning(message, e);
+            logWarning("Got error when retrieving total amount used per year", e);
         }
         return totaltHandlebelopPrAar;
     }
@@ -397,8 +384,7 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            var message = "Got error when retrieving total amount used per year";
-            logWarning(message, e);
+            logWarning("Got error when retrieving total amount used per year", e);
         }
         return totaltHandlebelopPrAarOgMaaned;
     }
@@ -429,9 +415,7 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            var message = "Failed to retrieve a list of favourites";
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException("Failed to retrieve a list of favourites", e);
         }
         return favoritter;
     }
@@ -448,9 +432,7 @@ public class HandleregServiceProvider implements HandleregService {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            var message = "Failed to insert a new favourite";
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException("Failed to insert a new favourite", e);
         }
         return finnFavoritter(nyFavoritt.brukernavn());
     }
@@ -464,9 +446,7 @@ public class HandleregServiceProvider implements HandleregService {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            var message = "Failed to delete favourite";
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException("Failed to delete favourite", e);
         }
         return finnFavoritterMedAccountid(skalSlettes.accountid());
     }
@@ -486,10 +466,9 @@ public class HandleregServiceProvider implements HandleregService {
                 flipstatement2.executeUpdate();
             }
         } catch (SQLException e) {
-            var message = "Failed to swap order of favourites";
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException("Failed to swap order of favourites", e);
         }
+
         return finnFavoritterMedAccountid(parSomSkalBytteRekkfolge.forste().accountid());
     }
 
@@ -539,10 +518,9 @@ public class HandleregServiceProvider implements HandleregService {
                 }
             }
         } catch (SQLException e) {
-            var message = "Failed to retrieve a list of favourites";
-            logError(message, e);
-            throw new HandleregException(message, e);
+            throw new HandleregException("Failed to retrieve a list of favourites", e);
         }
+
         return favoritter;
     }
 
@@ -558,6 +536,7 @@ public class HandleregServiceProvider implements HandleregService {
         } catch (SQLException e) {
             logWarning("Failed to retrieve last favourite rekkefolge value", e);
         }
+
         return 0;
     }
 
