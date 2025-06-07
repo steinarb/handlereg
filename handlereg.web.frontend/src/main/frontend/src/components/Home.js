@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useSwipeable } from 'react-swipeable';
 import {
     useGetOversiktQuery,
     useGetHandlingerInfiniteQuery,
@@ -28,14 +29,16 @@ export default function Home() {
     const handledato = handletidspunkt.split('T')[0];
     const belop = useSelector(state => state.belop).toString();
     const dispatch = useDispatch();
-
     const onNextPageClicked = async () => fetchNextPage();
     const onRegistrerHandlingClicked = async () => {
         await postNyhandling({ storeId, belop, handletidspunkt, username })
     }
+    const swipeHandlers = useSwipeable({
+        onSwipedUp: async () => fetchNextPage(),
+    });
 
     return (
-        <div>
+        <div {...swipeHandlers}>
             <nav className="flex items-center justify-between flex-wrap bg-slate-100 p-6">
                 <a className="text-center block border border-blue-500 rounded py-2 bg-blue-500 hover:bg-blue-700 text-white" href="../.."><span title="chevron left" aria-hidden="true"></span>&nbsp;Gå hjem!</a>
                 <h1 className="text-3xl font-bold">Matregnskap</h1>
