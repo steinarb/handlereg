@@ -7,7 +7,7 @@ function Favoritter() {
     return (
         <div>
             <nav className="flex items-center justify-between flex-wrap bg-slate-100 p-6">
-                <StyledLinkLeft to="/">Opp til matregnskap</StyledLinkLeft>
+                <StyledLinkLeft to="/leggetilendreslette">Legge til/Endre/Slette</StyledLinkLeft>
                 <h1 className="text-3xl font-bold">Favoritter</h1>
                 <div>&nbsp;</div>
             </nav>

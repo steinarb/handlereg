@@ -5,6 +5,7 @@ import { HistoryRouter as Router } from "redux-first-history/rr6";
 import './App.css';
 import Home from './components/Home';
 import Hurtigregistrering from './components/Hurtigregistrering';
+import LeggtilEndreSlette from './components/LeggtilEndreSlette';
 import Statistikk from './components/Statistikk';
 import StatistikkSumbutikk from './components/StatistikkSumbutikk';
 import StatistikkHandlingerbutikk from './components/StatistikkHandlingerbutikk';
@@ -35,6 +36,7 @@ export default function App(props) {
                 <Route exact path="/statistikk/sumyearmonth" element={<StatistikkSumyearmonth/>} />
                 <Route exact path="/statistikk/sumyear" element={<StatistikkSumyear/>} />
                 <Route exact path="/statistikk" element={<Statistikk/>} />
+                <Route exact path="/leggetilendreslette" element={<LeggtilEndreSlette/>} />
                 <Route exact path="/favoritter/leggtil" element={<FavoritterLeggTil/>} />
                 <Route exact path="/favoritter/slett" element={<FavoritterSlett/>} />
                 <Route exact path="/favoritter/sorter" element={<FavoritterSorter/>} />

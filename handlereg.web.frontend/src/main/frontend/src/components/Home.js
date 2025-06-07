@@ -41,10 +41,8 @@ export default function Home() {
                 <StyledLinkRight to="/hurtigregistrering">Hurtig</StyledLinkRight>
             </nav>
             <Container>
-                <StyledLinkRight className="flex justify-end" to="/favoritter">Favoritter</StyledLinkRight>
                 <StyledLinkRight className="flex justify-end mb-1" to="/statistikk">Statistikk</StyledLinkRight>
-                <StyledLinkRight className="flex justify-end mb-1" to="/nybutikk">Ny butikk</StyledLinkRight>
-                <StyledLinkRight className="flex justify-end mb-1" to="/endrebutikk">Endre butikk</StyledLinkRight>
+                <StyledLinkRight className="flex justify-end" to="/leggetilendreslette">Legge til/Endre/Slette</StyledLinkRight>
             </Container>
             <Container>
                 <form className="w-full max-w-lg mt-4 grid grid-flow-row auto-rows-max" onSubmit={ e => { e.preventDefault(); }}>
