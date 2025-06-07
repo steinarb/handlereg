@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     useGetOversiktQuery,
-    useGetHandlingerQuery,
     useGetFavoritterQuery,
     usePostNyhandlingMutation,
 } from '../api';

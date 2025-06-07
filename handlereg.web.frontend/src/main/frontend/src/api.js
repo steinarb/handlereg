@@ -10,7 +10,13 @@ export const api = createApi({
     endpoints: (builder) => ({
         getLogintilstand: builder.query({ query: () => '/logintilstand' }),
         getOversikt: builder.query({ query: () => '/oversikt' }),
-        getHandlinger: builder.query({ query: (accountId) => '/handlinger/' + accountId.toString(), providesTags: ['Handlinger'] }),
+        getHandlinger: builder.infiniteQuery({
+            infiniteQueryOptions: {
+                initialPageParam: 0,
+                getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => lastPageParam + 1,
+            },
+            query: ({ queryArg, pageParam }) => '/handlinger/' + queryArg.toString() + '?pagenumber=' + pageParam, providesTags: ['Handlinger']
+        }),
         getButikker: builder.query({ query: () => '/butikker' }),
         getFavoritter: builder.query({ query: (username) => '/favoritter?username=' + username }),
         getSumButikk: builder.query({ query: () => '/statistikk/sumbutikk', providesTags: ['Handlinger'] }),
@@ -81,7 +87,7 @@ export const api = createApi({
 export const {
     useGetLogintilstandQuery,
     useGetOversiktQuery,
-    useGetHandlingerQuery,
+    useGetHandlingerInfiniteQuery,
     useGetButikkerQuery,
     useGetFavoritterQuery,
     useGetSumButikkQuery,

@@ -10,7 +10,7 @@ const defaultState = '';
 
 const butikkReducer = createReducer(defaultState, builder => {
     builder
-        .addMatcher(api.endpoints.getHandlinger.matchFulfilled, (state, action) => finnSisteButikknavn(action.payload))
+        .addMatcher(api.endpoints.getHandlinger.matchFulfilled, finnSisteButikknavn)
         .addCase(VELG_BUTIKK, (state, action) => action.payload.butikknavn)
         .addCase(HOME_BUTIKKNAVN_ENDRE, (state, action) => action.payload.navn)
         .addCase(BUTIKKNAVN_ENDRE, (state, action) => action.payload)
@@ -20,7 +20,13 @@ const butikkReducer = createReducer(defaultState, builder => {
 
 export default butikkReducer;
 
-function finnSisteButikknavn(handlinger) {
-    const sistebutikk = [...handlinger].pop();
-    return sistebutikk.butikk;
+function finnSisteButikknavn(state, action) {
+    const { pageParams, pages } = action.payload;
+    if (pageParams.length === 1) {
+        const handlinger = pages[0];
+        const sistebutikk = [...handlinger].pop();
+        return sistebutikk.butikk;
+    }
+
+    return state;
 }

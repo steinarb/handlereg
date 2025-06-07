@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     useGetOversiktQuery,
-    useGetHandlingerQuery,
+    useGetHandlingerInfiniteQuery,
     useGetButikkerQuery,
     usePostNyhandlingMutation,
 } from '../api';
@@ -18,7 +18,7 @@ import Kvittering from './Kvittering';
 
 export default function Home() {
     const { data: oversikt = {}, isSuccess: oversiktIsSuccess } = useGetOversiktQuery();
-    const { data: handlinger = [] } = useGetHandlingerQuery(oversikt.accountid, { skip: !oversiktIsSuccess });
+    const { data: handlinger, isSuccess: handlingerIsSuccess } = useGetHandlingerInfiniteQuery(oversikt.accountid, { skip: !oversiktIsSuccess });
     const username = oversikt.brukernavn;
     const { data: butikker = [] } = useGetButikkerQuery();
     const [ postNyhandling ] = usePostNyhandlingMutation();
@@ -95,13 +95,13 @@ export default function Home() {
                             </tr>
                         </thead>
                         <tbody>
-                            {handlinger.map((handling) =>
+                            {handlingerIsSuccess && handlinger.pages.map((page) => page.map((handling) =>
                                             <tr key={handling.transactionId}>
                                                 <td className="border border-slate-300">{new Date(handling.handletidspunkt).toISOString().split('T')[0]}</td>
                                                 <td className="border border-slate-300">{handling.belop}</td>
                                                 <td className="border border-slate-300">{handling.butikk}</td>
                                             </tr>
-                                           )}
+                            ))}
                         </tbody>
                     </table>
                 </div>
