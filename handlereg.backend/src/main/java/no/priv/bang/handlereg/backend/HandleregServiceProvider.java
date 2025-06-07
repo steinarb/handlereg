@@ -97,9 +97,9 @@ public class HandleregServiceProvider implements HandleregService {
             //
             // Therefore we have to iterate backwards through the resultset.
             try (var statement = connection.prepareStatement(
-                     "select aggregate_amount from sum_over_month_view",
-                     ResultSet.TYPE_SCROLL_INSENSITIVE,
-                     ResultSet.CONCUR_READ_ONLY))
+                "select aggregate_amount from sum_over_month_view",
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY))
             {
                 try (var results = statement.executeQuery()) {
                     if (results.last()) {
