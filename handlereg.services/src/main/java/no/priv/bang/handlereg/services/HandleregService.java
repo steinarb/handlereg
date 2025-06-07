@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Steinar Bang
+ * Copyright 2019-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ public interface HandleregService {
 
     Oversikt finnOversikt(String brukernavn);
 
-    List<Transaction> findLastTransactions(int accountId);
+    List<Transaction> findTransactions(int accountId, int pageNumber, int pageSize);
 
     Oversikt registrerHandling(NyHandling handling);
 

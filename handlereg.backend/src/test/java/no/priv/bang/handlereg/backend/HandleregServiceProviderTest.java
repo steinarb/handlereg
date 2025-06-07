@@ -119,12 +119,46 @@ class HandleregServiceProviderTest {
         handlereg.activate();
 
         var jod = handlereg.finnOversikt("jod");
-        var handlingerJod = handlereg.findLastTransactions(jod.accountid());
-        assertEquals(5, handlingerJod.size());
+        var handlingerJod = handlereg.findTransactions(jod.accountid(), 0, 10);
+        assertThat(handlingerJod).hasSize(10);
 
         var jad = handlereg.finnOversikt("jad");
-        var handlingerJad = handlereg.findLastTransactions(jad.accountid());
-        assertEquals(5, handlingerJad.size());
+        var handlingerJad = handlereg.findTransactions(jad.accountid(), 0, 10);
+        assertThat(handlingerJad).hasSize(10);
+    }
+
+    @Test
+    void testHentHandlingerSisteSide() {
+        var logservice = new MockLogService();
+        var handlereg = new HandleregServiceProvider();
+        var useradmin = mock(UserManagementService.class);
+        when(useradmin.getUser("jod")).thenReturn(User.with().userid(1).username("jod").email("jod@gmail.com").firstname("John").lastname("Doe").build());
+        when(useradmin.getUser("jad")).thenReturn(User.with().userid(2).username("jad").email("jad@gmail.com").firstname("Jane").lastname("Doe").build());
+        handlereg.setLogservice(logservice);
+        handlereg.setDatasource(datasource);
+        handlereg.setUseradmin(useradmin);
+        handlereg.activate();
+
+        var jod = handlereg.finnOversikt("jod");
+        var handlingerJod = handlereg.findTransactions(jod.accountid(), 236, 10);
+        assertThat(handlingerJod).hasSizeLessThan(10).isNotEmpty();
+    }
+
+    @Test
+    void testHentHandlingerLangtForbiSlutt() {
+        var logservice = new MockLogService();
+        var handlereg = new HandleregServiceProvider();
+        var useradmin = mock(UserManagementService.class);
+        when(useradmin.getUser("jod")).thenReturn(User.with().userid(1).username("jod").email("jod@gmail.com").firstname("John").lastname("Doe").build());
+        when(useradmin.getUser("jad")).thenReturn(User.with().userid(2).username("jad").email("jad@gmail.com").firstname("Jane").lastname("Doe").build());
+        handlereg.setLogservice(logservice);
+        handlereg.setDatasource(datasource);
+        handlereg.setUseradmin(useradmin);
+        handlereg.activate();
+
+        var jod = handlereg.finnOversikt("jod");
+        var handlingerJod = handlereg.findTransactions(jod.accountid(), 2000, 10);
+        assertThat(handlingerJod).isEmpty();
     }
 
     @Test
@@ -138,7 +172,7 @@ class HandleregServiceProviderTest {
         handlereg.setUseradmin(useradmin);
         handlereg.activate();
 
-        assertThrows(HandleregException.class, () -> handlereg.findLastTransactions(1));
+        assertThrows(HandleregException.class, () -> handlereg.findTransactions(1, 0, 10));
     }
 
     @Test

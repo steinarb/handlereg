@@ -38,11 +38,11 @@ class HandlingResourceTest {
     void testGetHandlinger() {
         var logservice = new MockLogService();
         var handlereg = mock(HandleregService.class);
-        when(handlereg.findLastTransactions(1)).thenReturn(Arrays.asList(Transaction.with().build()));
+        when(handlereg.findTransactions(1, 0, 10)).thenReturn(Arrays.asList(Transaction.with().build()));
         var resource = new HandlingResource();
         resource.setLogservice(logservice);
         resource.handlereg = handlereg;
-        var handlinger = resource.getHandlinger(1);
+        var handlinger = resource.getHandlinger(1, 0, 10);
         assertThat(handlinger).isNotEmpty();
     }
 
@@ -53,7 +53,7 @@ class HandlingResourceTest {
         var resource = new HandlingResource();
         resource.setLogservice(logservice);
         resource.handlereg = handlereg;
-        var handlinger = resource.getHandlinger(1);
+        var handlinger = resource.getHandlinger(1, 0, 10);
         assertThat(handlinger).isEmpty();
     }
 
@@ -61,12 +61,12 @@ class HandlingResourceTest {
     void testGetHandlingerWhenExceptionIsThrown() {
         var logservice = new MockLogService();
         var handlereg = mock(HandleregService.class);
-        when(handlereg.findLastTransactions(anyInt())).thenThrow(HandleregException.class);
+        when(handlereg.findTransactions(anyInt(), anyInt(), anyInt())).thenThrow(HandleregException.class);
         var resource = new HandlingResource();
         resource.setLogservice(logservice);
         resource.handlereg = handlereg;
 
-        assertThrows(InternalServerErrorException.class, () -> resource.getHandlinger(1));
+        assertThrows(InternalServerErrorException.class, () -> resource.getHandlinger(1, 0, 10));
     }
 
     @Test

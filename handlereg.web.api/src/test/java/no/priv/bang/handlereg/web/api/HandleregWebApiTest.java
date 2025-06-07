@@ -135,7 +135,7 @@ class HandleregWebApiTest extends ShiroTestBase {
     @Test
     void testGetHandlinger() throws Exception {
         var handlereg = mock(HandleregService.class);
-        when(handlereg.findLastTransactions(1)).thenReturn(Arrays.asList(Transaction.with().build()));
+        when(handlereg.findTransactions(1, 0, 10)).thenReturn(Arrays.asList(Transaction.with().build()));
         var logservice = new MockLogService();
         var servlet = simulateDSComponentActivationAndWebWhiteboardConfiguration(handlereg, logservice);
         var request = buildGetUrl("/handlinger/1");

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2024 Steinar Bang
+ * Copyright 2019-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -56,9 +58,13 @@ public class HandlingResource {
 
     @GET
     @Path("/handlinger/{accountid}")
-    public List<Transaction> getHandlinger(@PathParam("accountid") int accountId) {
+    public List<Transaction> getHandlinger(
+        @PathParam("accountid") int accountId,
+        @DefaultValue("1") @QueryParam("pagenumber") int pageNumber,
+        @DefaultValue("10") @QueryParam("pagesize") int pageSize)
+    {
         try {
-            return handlereg.findLastTransactions(accountId);
+            return handlereg.findTransactions(accountId, pageNumber, pageSize);
         } catch (Exception e) {
             String message = String.format("Failed to get transactions for account %d", accountId);
             logger.error(message, e);

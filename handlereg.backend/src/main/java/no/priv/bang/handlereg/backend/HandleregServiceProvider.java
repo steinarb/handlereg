@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2024 Steinar Bang
+ * Copyright 2018-2025 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -155,12 +155,14 @@ public class HandleregServiceProvider implements HandleregService {
     }
 
     @Override
-    public List<Transaction> findLastTransactions(int userId) {
+    public List<Transaction> findTransactions(int userId, int pageNumber, int pageSize) {
         var handlinger = new ArrayList<Transaction>();
-        var sql = "select t.transaction_id, t.transaction_time, s.store_name, s.store_id, t.transaction_amount from transactions t join stores s on s.store_id=t.store_id where t.transaction_id in (select transaction_id from transactions where account_id=? order by transaction_time desc fetch next 5 rows only) order by t.transaction_time asc";
+        var sql = "select t.transaction_id, t.transaction_time, s.store_name, s.store_id, t.transaction_amount from transactions t join stores s on s.store_id=t.store_id where t.account_id=? order by t.transaction_time desc offset ? rows fetch next ? rows only";
         try(var connection = datasource.getConnection()) {
             try (var statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, userId);
+                statement.setInt(2, pageNumber * pageSize);
+                statement.setInt(3, pageSize);
                 try (var results = statement.executeQuery()) {
                     while(results.next()) {
                         var transaction = Transaction.with()
