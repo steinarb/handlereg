@@ -1,21 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { useGetSumYearMonthQuery } from '../api';
-import { Container } from './bootstrap/Container';
-import { StyledLinkLeft } from './bootstrap/StyledLinkLeft';
 
 export default function StatistikkSumyearmonth() {
     const { data: sumyearmonth = [] } = useGetSumYearMonthQuery();
 
     return (
         <div>
-            <nav>
-                <StyledLinkLeft to="/statistikk">Tilbake</StyledLinkLeft>
-                <h1>Handlesum for år og måned</h1>
-                <div>&nbsp;</div>
-            </nav>
-            <Container>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Handlesum for år og måned</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk">Tilbake</Link></li>
+                </ul>
+            </div>
+            <div className="content-wrapper">
                 <div>
-                    <table>
+                    <table className="pure-table pure-table-bordered">
                         <thead>
                             <tr>
                                 <td>År</td>
@@ -34,7 +34,7 @@ export default function StatistikkSumyearmonth() {
                         </tbody>
                     </table>
                 </div>
-            </Container>
+            </div>
         </div>
     );
 }

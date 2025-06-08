@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
 import {
@@ -12,8 +13,6 @@ import {
     HOME_BUTIKKNAVN_ENDRE,
     DATO_ENDRE,
 } from '../actiontypes';
-import { Container } from './bootstrap/Container';
-import { StyledLinkRight } from './bootstrap/StyledLinkRight';
 import Kvittering from './Kvittering';
 
 
@@ -39,56 +38,52 @@ export default function Home() {
 
     return (
         <div {...swipeHandlers}>
-            <nav>
-                <a href="../.."><span title="chevron left" aria-hidden="true"></span>&nbsp;Gå hjem!</a>
-                <h1>Matregnskap</h1>
-                <StyledLinkRight to="/hurtigregistrering">Hurtig</StyledLinkRight>
-            </nav>
-            <Container>
-                <StyledLinkRight to="/statistikk">Statistikk</StyledLinkRight>
-                <StyledLinkRight to="/leggetilendreslette">Legge til/Endre/Slette</StyledLinkRight>
-            </Container>
-            <Container>
-                <form onSubmit={ e => { e.preventDefault(); }}>
-                    <div>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Matregnskap</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><a className="pure-menu-link" href="../..">Gå hjem!</a></li>
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/hurtigregistrering">Hurtig</Link></li>
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk">Statistikk</Link></li>
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/leggetilendreslette">Legge til/Endre/Slette</Link></li>
+                </ul>
+            </div>
+            <div className="content-wrapper">
+                <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
+                    <div className="pure-control-group">
                         <label htmlFor="amount">Nytt beløp</label>
                         <input id="amount" type="number" pattern="\d+" value={belop} onChange={e => dispatch(BELOP_ENDRE(e.target.value))} />
                     </div>
-                    <div>
+                    <div className="pure-control-group">
                         <label htmlFor="jobtype">Velg butikk</label>
-                        <div>
-                            <input
-                                list="butikker"
-                                id="valgt-butikk"
-                                name="valgt-butikk"
-                                value={butikknavn}
-                                onChange={e => dispatch(HOME_BUTIKKNAVN_ENDRE({ navn: e.target.value, butikker }))}/>
-                            <datalist id="butikker">
-                                <option key="-1" value="" />
-                                {butikker.map(butikk => <option key={butikk.storeId} value={butikk.butikknavn}/>)}
-                            </datalist>
-                        </div>
+                        <input
+                            list="butikker"
+                            id="valgt-butikk"
+                            name="valgt-butikk"
+                            value={butikknavn}
+                            onChange={e => dispatch(HOME_BUTIKKNAVN_ENDRE({ navn: e.target.value, butikker }))}/>
+                        <datalist id="butikker">
+                            <option key="-1" value="" />
+                            {butikker.map(butikk => <option key={butikk.storeId} value={butikk.butikknavn}/>)}
+                        </datalist>
                     </div>
-                    <div>
+                    <div className="pure-control-group">
                         <label htmlFor="date">Dato</label>
-                        <div>
-                            <input
-                                id="date"
-                                type="date"
-                                value={handledato}
-                                onChange={e => dispatch(DATO_ENDRE(e.target.value))}
-                            />
-                        </div>
+                        <input
+                            id="date"
+                            type="date"
+                            value={handledato}
+                            onChange={e => dispatch(DATO_ENDRE(e.target.value))}
+                        />
                     </div>
-                    <div>
+                    <div className="pure-control-group">
                         <div>&nbsp;</div>
-                        <button disabled={belop <= 0} onClick={onRegistrerHandlingClicked}>Registrer handling</button>
+                        <button className="pure-button pure-button-primary" disabled={belop <= 0} onClick={onRegistrerHandlingClicked}>Registrer handling</button>
                     </div>
                 </form>
                 <Kvittering/>
                 <p>Dine siste innkjøp, er:</p>
                 <div>
-                    <table>
+                    <table className="pure-table pure-table-bordered">
                         <thead>
                             <tr>
                                 <th>Dato</th>
@@ -110,7 +105,7 @@ export default function Home() {
                 <div>
                     <button onClick={onNextPageClicked}>Neste</button>
                 </div>
-            </Container>
+            </div>
         </div>
     );
 }

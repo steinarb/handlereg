@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useGetLogoutMutation } from '../api';
-import { Container } from './bootstrap/Container';
 
 
 export default function Unauthorized() {
@@ -14,23 +13,24 @@ export default function Unauthorized() {
 
     return (
         <div>
-            <nav>
-                <a href="../.."><span title="chevron left" aria-hidden="true"></span>&nbsp;Gå hjem!</a>
-                <h1>Ingen tilgang</h1>
-                <div>&nbsp;</div>
-            </nav>
-            <Container>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Ingen tilgang</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><a className="pure-menu-link" href="../..">Gå hjem!</a></li>
+                </ul>
+            </div>
+            <div className="content-wrapper">
                 <p>Hei {loginresultat.brukernavn}! Du har ikke tilgang til denne applikasjonen</p>
                 <p>Klikk &quot;Gå hjem&quot; for å navigere ut av applikasjonen, eller logg ut for å logge inn med en bruker som har tilgang</p>
-                <form onSubmit={ e => { e.preventDefault(); }}>
+                <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
                     <div>
                         <div/>
                         <div>
-                            <button onClick={onLogoutClicked}>Logg ut</button>
+                            <button className="pure-button pure-button-primary" onClick={onLogoutClicked}>Logg ut</button>
                         </div>
                     </div>
                 </form>
-            </Container>
+            </div>
         </div>
     );
 }

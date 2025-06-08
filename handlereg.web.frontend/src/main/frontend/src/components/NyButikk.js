@@ -1,8 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { usePostNybutikkMutation } from '../api';
-import { Container } from './bootstrap/Container';
-import { StyledLinkLeft } from './bootstrap/StyledLinkLeft';
 import { BUTIKKNAVN_ENDRE } from '../actiontypes';
 
 export default function NyButikk() {
@@ -16,23 +15,24 @@ export default function NyButikk() {
 
     return (
         <div>
-            <nav>
-                <StyledLinkLeft to="/leggetilendreslette">Legge til/Endre/Slette</StyledLinkLeft>
-                <h1>Ny butikk</h1>
-                <div>&nbsp;</div>
-            </nav>
-            <Container>
-                <form onSubmit={ e => { e.preventDefault(); }}>
-                    <div>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Ny butikk</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/leggetilendreslette">Legge til/Endre/Slette</Link></li>
+                </ul>
+            </div>
+            <div className="content-wrapper">
+                <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
+                    <div className="pure-control-group">
                         <label htmlFor="amount">Ny butikk</label>
                         <input id="amount" type="text" value={butikknavn} onChange={e => dispatch(BUTIKKNAVN_ENDRE(e.target.value))} />
                     </div>
-                    <div>
+                    <div className="pure-control-group">
                         <div>&nbsp;</div>
-                        <button onClick={onLeggTilButikkClicked}>Legg til butikk</button>
+                        <button className="pure-button pure-button-primary" onClick={onLeggTilButikkClicked}>Legg til butikk</button>
                     </div>
                 </form>
-            </Container>
+            </div>
         </div>
     );
 }

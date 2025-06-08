@@ -21,24 +21,22 @@ export default function Login() {
 
     return (
         <div>
-            <header>
-                <div>
-                    <h1>Handleregistrering login</h1>
-                </div>
-            </header>
-            <div>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Handleregistrering login</a>
+            </div>
+            <div className="content-wrapper">
                 <LoginMessage/>
-                <form onSubmit={e => { e.preventDefault(); }}>
-                    <div>
+                <form className="pure-form pure-form-aligned" onSubmit={e => { e.preventDefault(); }}>
+                    <div className="pure-control-group">
                         <label htmlFor="username">Username:</label>
                         <input id="username" type="text" name="username" autoComplete="username" value={username} onChange={e => setUsername(e.target.value)} />
                     </div>
-                    <div>
+                    <div className="pure-control-group">
                         <label htmlFor="password">Password:</label>
                         <input id="password" type="password" name="password" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)}/>
                     </div>
-                    <div>
-                        <input type="submit" value="Login" onClick={onLoginClicked}/>
+                    <div className="pure-control-group">
+                        <input className="pure-button pure-button-primary" type="submit" value="Login" onClick={onLoginClicked}/>
                     </div>
                 </form>
             </div>

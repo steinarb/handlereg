@@ -1,12 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     useGetOversiktQuery,
     useGetFavoritterQuery,
     usePostNyhandlingMutation,
 } from '../api';
-import { Container } from './bootstrap/Container';
-import { StyledLinkLeft } from './bootstrap/StyledLinkLeft';
 import Kvittering from './Kvittering';
 import {
     BELOP_ENDRE,
@@ -27,21 +26,22 @@ export default function Hurtigregistrering() {
 
     return (
         <div>
-            <nav>
-                <StyledLinkLeft to="/">Opp til matregnskap</StyledLinkLeft>
-                <h1>Hurtigregistrering</h1>
-                <div>&nbsp;</div>
-            </nav>
-            <Container>
-                <form onSubmit={ e => { e.preventDefault(); }}>
-                    <div>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Hurtigregistrering</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/">Opp til matregnskap</Link></li>
+                </ul>
+            </div>
+            <div className="content-wrapper">
+                <form className="pure-form pure-form-aligned" className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
+                    <div className="pure-control-group">
                         <label htmlFor="amount">Nytt beløp</label>
                         <input id="amount" type="number" pattern="\d+" value={belop} onChange={e => dispatch(BELOP_ENDRE(e.target.value))} />
                     </div>
                     <Kvittering/>
-                    { favoritter.map(f => <button key={'favoritt_' + f.favouriteid.toString()} disabled={belop <= 0} onClick={() => onStoreClicked(f.store.storeId)}>{f.store.butikknavn}</button>) }
+                    { favoritter.map(f => <button className="pure-button pure-button-primary" key={'favoritt_' + f.favouriteid.toString()} disabled={belop <= 0} onClick={() => onStoreClicked(f.store.storeId)}>{f.store.butikknavn}</button>) }
                 </form>
-            </Container>
+            </div>
         </div>
     );
 }

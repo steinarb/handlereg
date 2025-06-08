@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     useGetOversiktQuery,
@@ -6,8 +7,6 @@ import {
     useGetFavoritterQuery,
     usePostFavorittLeggtilMutation,
 } from '../api';
-import { Container } from './bootstrap/Container';
-import { StyledLinkLeft } from './bootstrap/StyledLinkLeft';
 import {
     VELG_FAVORITTBUTIKK,
 } from '../actiontypes';
@@ -29,25 +28,26 @@ export default function FavoritterLeggTil() {
 
     return (
         <div>
-            <nav>
-                <StyledLinkLeft to="/favoritter">Tilbake</StyledLinkLeft>
-                <h1>Legg til favoritt-butikk</h1>
-                <div>&nbsp;</div>
-            </nav>
-            <Container>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Legg til favoritt-butikk</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/favoritter">Tilbake</Link></li>
+                </ul>
+            </div>
+            <div className="content-wrapper">
                 <div>
-                    { favoritter.map(f => <div key={'favoritt_' + f.favouriteid}>{f.store.butikknavn}</div>) }
+                    { favoritter.map(f => <div className="favourite" key={'favoritt_' + f.favouriteid}>{f.store.butikknavn}</div>) }
                 </div>
-                <form onSubmit={ e => { e.preventDefault(); }}>
+                <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
                     <select value={favorittbutikk} onChange={e => dispatch(VELG_FAVORITTBUTIKK(parseInt(e.target.value)))}>
                         <option key="butikk_-1" value="-1" />
                         { ledigeButikker.map(b => <option key={'butikk_' + b.storeId.toString()} value={b.storeId}>{b.butikknavn}</option>) }
                     </select>
                     <div>
-                        <button disabled={ingenButikkValgt} onClick={onLeggTilFavorittClicked}>Legg til favoritt</button>
+                        <button className="pure-button pure-button-primary" disabled={ingenButikkValgt} onClick={onLeggTilFavorittClicked}>Legg til favoritt</button>
                     </div>
                 </form>
-            </Container>
+            </div>
         </div>
     );
 }

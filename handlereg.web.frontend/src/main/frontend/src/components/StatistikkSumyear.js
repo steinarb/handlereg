@@ -1,21 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { useGetSumYearQuery } from '../api';
-import { Container } from './bootstrap/Container';
-import { StyledLinkLeft } from './bootstrap/StyledLinkLeft';
 
 export default function StatistikkSumyear() {
     const { data: sumyear = [] } = useGetSumYearQuery();
 
     return (
         <div>
-            <nav>
-                <StyledLinkLeft to="/statistikk">Tilbake</StyledLinkLeft>
-                <h1>Handlesum pr år</h1>
-                <div>&nbsp;</div>
-            </nav>
-            <Container>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Handlesum pr år</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk">Tilbake</Link></li>
+                </ul>
+            </div>
+            <div className="statistics-content-wrapper">
                 <div>
-                    <table>
+                    <table className="pure-table pure-table-bordered">
                         <thead>
                             <tr>
                                 <td>År</td>
@@ -32,7 +32,7 @@ export default function StatistikkSumyear() {
                         </tbody>
                     </table>
                 </div>
-            </Container>
+            </div>
         </div>
     );
 }
