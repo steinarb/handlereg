@@ -8,27 +8,27 @@ export default function StatistikkSumyearmonth() {
 
     return (
         <div>
-            <nav className="flex items-center justify-between flex-wrap bg-slate-100 p-6">
+            <nav>
                 <StyledLinkLeft to="/statistikk">Tilbake</StyledLinkLeft>
-                <h1 className="sm:text-1xl md:text-3xl font-bold">Handlesum for år og måned</h1>
+                <h1>Handlesum for år og måned</h1>
                 <div>&nbsp;</div>
             </nav>
             <Container>
                 <div>
-                    <table className="table-auto border border-slate-400 w-full">
-                        <thead className="bg-slate-50">
-                            <tr className="py-4">
-                                <td className="border border-slate-300">År</td>
-                                <td className="border border-slate-300">Måned</td>
-                                <td className="border border-slate-300">Handlebeløp</td>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>År</td>
+                                <td>Måned</td>
+                                <td>Handlebeløp</td>
                             </tr>
                         </thead>
                         <tbody>
                             {sumyearmonth.map((sym) =>
                                               <tr key={'year' + sym.year + sym.month}>
-                                                  <td className="border border-slate-300">{sym.year}</td>
-                                                  <td className="border border-slate-300">{sym.month}</td>
-                                                  <td className="border border-slate-300">{sym.sum}</td>
+                                                  <td>{sym.year}</td>
+                                                  <td>{sym.month}</td>
+                                                  <td>{sym.sum}</td>
                                               </tr>
                                              )}
                         </tbody>

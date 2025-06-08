@@ -6,15 +6,15 @@ import { StyledLinkRight } from './bootstrap/StyledLinkRight';
 function Favoritter() {
     return (
         <div>
-            <nav className="flex items-center justify-between flex-wrap bg-slate-100 p-6">
+            <nav>
                 <StyledLinkLeft to="/leggetilendreslette">Legge til/Endre/Slette</StyledLinkLeft>
-                <h1 className="text-3xl font-bold">Favoritter</h1>
+                <h1>Favoritter</h1>
                 <div>&nbsp;</div>
             </nav>
             <Container>
-                <StyledLinkRight className="flex justify-end mb-1" to="/favoritter/leggtil">Legg til favoritt</StyledLinkRight>
-                <StyledLinkRight className="flex justify-end mb-1" to="/favoritter/slett">Slett favoritt</StyledLinkRight>
-                <StyledLinkRight className="flex justify-end mb-1" to="/favoritter/sorter">Endre rekkefølge på favoritter</StyledLinkRight>
+                <StyledLinkRight to="/favoritter/leggtil">Legg til favoritt</StyledLinkRight>
+                <StyledLinkRight to="/favoritter/slett">Slett favoritt</StyledLinkRight>
+                <StyledLinkRight to="/favoritter/sorter">Endre rekkefølge på favoritter</StyledLinkRight>
             </Container>
         </div>
     );
