@@ -39,7 +39,9 @@ export default function Hurtigregistrering() {
                         <input id="amount" type="number" pattern="\d+" value={belop} onChange={e => dispatch(BELOP_ENDRE(e.target.value))} />
                     </div>
                     <Kvittering/>
-                    { favoritter.map(f => <button className="pure-button pure-button-primary" key={'favoritt_' + f.favouriteid.toString()} disabled={belop <= 0} onClick={() => onStoreClicked(f.store.storeId)}>{f.store.butikknavn}</button>) }
+                    <div className="favourite-group">
+                        { favoritter.map(f => <button className="pure-button pure-button-primary" key={'favoritt_' + f.favouriteid.toString()} disabled={belop <= 0} onClick={() => onStoreClicked(f.store.storeId)}>{f.store.butikknavn}</button>) }
+                    </div>
                 </form>
             </div>
         </div>

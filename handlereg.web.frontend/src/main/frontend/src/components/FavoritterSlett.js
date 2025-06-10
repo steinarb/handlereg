@@ -27,7 +27,7 @@ export default function FavoritterSlett() {
                 </ul>
             </div>
             <div className="content-wrapper">
-                <div className="favourite-delete-group">
+                <div className="favourite-group">
                     { favoritter.map(f => <button className="favourite" key={'favoritt_' + f.favouriteid} onClick={() => onFavorittClicked({...f, brukernavn})}>{f.store.butikknavn}</button>) }
                 </div>
             </div>
