@@ -1,11 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     useGetButikkerQuery,
     usePostEndrebutikkMutation,
 } from '../api';
-import { Container } from './bootstrap/Container';
-import { StyledLinkLeft } from './bootstrap/StyledLinkLeft';
 import {
     VELG_BUTIKK,
     BUTIKKNAVN_ENDRE,
@@ -28,26 +27,27 @@ export default function EndreButikk() {
 
     return (
         <div>
-            <nav className="flex items-center justify-between flex-wrap bg-slate-100 p-6">
-                <StyledLinkLeft to="/leggetilendreslette">Legge til/Endre/Slette</StyledLinkLeft>
-                <h1 className="sm:text-2xl md:text-3xl font-bold">Endre butikk</h1>
-                <div>&nbsp;</div>
-            </nav>
-            <Container>
-                <form className="w-full max-w-lg mt-4 grid grid-flow-row auto-rows-max" onSubmit={ e => { e.preventDefault(); }}>
-                    <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" size="10" value={valgtButikk} onChange={e => dispatch(VELG_BUTIKK(butikker.find(b => b.storeId.toString()===e.target.value) || uvalgtButikk))}>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Endre butikk</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/leggetilendreslette">Legge til/Endre/Slette</Link></li>
+                </ul>
+            </div>
+            <div className="content-wrapper">
+                <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
+                    <select className="select-box" size="10" value={valgtButikk} onChange={e => dispatch(VELG_BUTIKK(butikker.find(b => b.storeId.toString()===e.target.value) || uvalgtButikk))}>
                         { butikker.map((b, indeks) => <option key={'butikk_' + b.storeId.toString()} value={b.storeId.toString()}>{b.butikknavn}</option>) }
                     </select>
-                    <div className="columns-2 mb-2">
-                        <label className="w-full ms-5 block uppercase text-gray-700 font-bold" htmlFor="amount">Butikknavn</label>
-                        <input className="appearance-none w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 focus:outline-none focus:bg-white" id="amount" type="text" value={butikknavn} onChange={e => dispatch(BUTIKKNAVN_ENDRE(e.target.value))} />
+                    <div className="pure-control-group">
+                        <label htmlFor="amount">Butikknavn</label>
+                        <input id="amount" type="text" value={butikknavn} onChange={e => dispatch(BUTIKKNAVN_ENDRE(e.target.value))} />
                     </div>
-                    <div className="columns-2 mb-2">
-                        <div className="w-full">&nbsp;</div>
-                        <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={onLagreEndretButikkClicked}>Lagre endret butikk</button>
+                    <div className="pure-control-group">
+                        <div>&nbsp;</div>
+                        <button className="pure-button pure-button-primary" onClick={onLagreEndretButikkClicked}>Lagre endret butikk</button>
                     </div>
                 </form>
-            </Container>
+            </div>
         </div>
     );
 }

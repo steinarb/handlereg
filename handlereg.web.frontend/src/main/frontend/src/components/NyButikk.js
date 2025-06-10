@@ -1,8 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { usePostNybutikkMutation } from '../api';
-import { Container } from './bootstrap/Container';
-import { StyledLinkLeft } from './bootstrap/StyledLinkLeft';
 import { BUTIKKNAVN_ENDRE } from '../actiontypes';
 
 export default function NyButikk() {
@@ -16,23 +15,24 @@ export default function NyButikk() {
 
     return (
         <div>
-            <nav className="flex items-center justify-between flex-wrap bg-slate-100 p-6">
-                <StyledLinkLeft to="/leggetilendreslette">Legge til/Endre/Slette</StyledLinkLeft>
-                <h1 className="text-3xl font-bold">Ny butikk</h1>
-                <div>&nbsp;</div>
-            </nav>
-            <Container>
-                <form className="w-full max-w-lg mt-4 grid grid-flow-row auto-rows-max" onSubmit={ e => { e.preventDefault(); }}>
-                    <div className="columns-2 mb-2">
-                        <label className="w-full ms-5 block uppercase text-gray-700 font-bold" htmlFor="amount">Ny butikk</label>
-                        <input className="appearance-none w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 focus:outline-none focus:bg-white" id="amount" type="text" value={butikknavn} onChange={e => dispatch(BUTIKKNAVN_ENDRE(e.target.value))} />
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Ny butikk</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/leggetilendreslette">Legge til/Endre/Slette</Link></li>
+                </ul>
+            </div>
+            <div className="content-wrapper">
+                <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
+                    <div className="pure-control-group">
+                        <label htmlFor="amount">Ny butikk</label>
+                        <input id="amount" type="text" value={butikknavn} onChange={e => dispatch(BUTIKKNAVN_ENDRE(e.target.value))} />
                     </div>
-                    <div className="columns-2 mb-2">
-                        <div className="w-full">&nbsp;</div>
-                        <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={onLeggTilButikkClicked}>Legg til butikk</button>
+                    <div className="pure-control-group">
+                        <div>&nbsp;</div>
+                        <button className="pure-button pure-button-primary" onClick={onLeggTilButikkClicked}>Legg til butikk</button>
                     </div>
                 </form>
-            </Container>
+            </div>
         </div>
     );
 }

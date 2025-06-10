@@ -12,8 +12,9 @@ export default function Kvittering() {
     }
 
     return (
-        <div role='alert' className="bg-yellow-100 border border-red-500 rounded py-5 px-5 my-5 mx-5">
-            Handlebeløp {oversikt.lastTransactionAmount} brukt på {butikk.butikknavn} registrert!<br/>
+        <div class="alert alert-success alert-white rounded">
+            <div class="icon"><i class="fa fa-check"></i></div>
+            <strong>Success!</strong> Handlebeløp {oversikt.lastTransactionAmount} brukt på {butikk.butikknavn} registrert!<br/>
             Totalt handlebeløp denne måneden {oversikt.sumThisMonth}, mot {oversikt.sumPreviousMonth} for hele forrige måned
         </div>
     );

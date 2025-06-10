@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { useGetLogintilstandQuery } from './api';
 import { Routes, Route } from 'react-router';
 import { HistoryRouter as Router } from "redux-first-history/rr6";
+import './index.css';
 import './App.css';
 import Home from './components/Home';
 import Hurtigregistrering from './components/Hurtigregistrering';

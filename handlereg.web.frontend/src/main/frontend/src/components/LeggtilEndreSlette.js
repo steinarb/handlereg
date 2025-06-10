@@ -1,22 +1,19 @@
 import React from 'react';
-import { Container } from './bootstrap/Container';
-import { StyledLinkLeft } from './bootstrap/StyledLinkLeft';
-import { StyledLinkRight } from './bootstrap/StyledLinkRight';
-
+import { Link } from 'react-router';
 
 export default function LeggtilEndreSlette() {
 
     return (
         <div>
-            <nav className="flex items-center justify-between flex-wrap bg-slate-100 p-6">
-                <StyledLinkLeft to="/">Opp til matregnskap</StyledLinkLeft>
-                <h1 className="text-3xl font-bold">Lagre/Endre/Slette</h1>
-            </nav>
-            <Container>
-                <StyledLinkRight className="flex justify-end" to="/favoritter">Favoritter</StyledLinkRight>
-                <StyledLinkRight className="flex justify-end mb-1" to="/nybutikk">Ny butikk</StyledLinkRight>
-                <StyledLinkRight className="flex justify-end mb-1" to="/endrebutikk">Endre butikk</StyledLinkRight>
-            </Container>
+            <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <a className="pure-menu-heading">Lagre/Endre/Slette</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/">Opp til matregnskap</Link></li>
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/favoritter">Favoritter</Link></li>
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/nybutikk">Ny butikk</Link></li>
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/endrebutikk">Endre butikk</Link></li>
+                </ul>
+            </div>
         </div>
     );
 }
