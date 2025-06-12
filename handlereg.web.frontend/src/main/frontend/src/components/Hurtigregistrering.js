@@ -33,7 +33,7 @@ export default function Hurtigregistrering() {
                 </ul>
             </div>
             <div className="content-wrapper">
-                <form className="pure-form pure-form-aligned" className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
+                <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
                     <div className="pure-control-group">
                         <label htmlFor="amount">Nytt beløp</label>
                         <input id="amount" type="number" pattern="\d+" value={belop} onChange={e => dispatch(BELOP_ENDRE(e.target.value))} />
