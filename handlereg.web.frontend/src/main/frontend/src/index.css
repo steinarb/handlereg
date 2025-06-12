@@ -202,6 +202,16 @@
     }
 }
 
+.navigation-link-list a {
+    margin-top: 5px;
+    width: 100%;
+    display: block;
+}
+
+.navigation-link-list a span {
+    float: right;
+}
+
 .favourite-group button {
     margin-top: 5px;
     width: 100%;

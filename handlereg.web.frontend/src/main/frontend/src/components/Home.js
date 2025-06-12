@@ -14,6 +14,7 @@ import {
     DATO_ENDRE,
 } from '../actiontypes';
 import Kvittering from './Kvittering';
+import ChevronRight from './bootstrap/ChevronRight';
 
 
 export default function Home() {
@@ -43,11 +44,11 @@ export default function Home() {
                 <ul className="pure-menu-list">
                     <li className="pure-menu-item"><a className="pure-menu-link" href="../..">Gå hjem!</a></li>
                     <li className="pure-menu-item"><Link className="pure-menu-link" to="/hurtigregistrering">Hurtig</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk">Statistikk</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/leggetilendreslette">Legge til/Endre/Slette</Link></li>
                 </ul>
             </div>
-            <div className="content-wrapper">
+            <div className="content-wrapper navigation-link-list">
+                <Link className="pure-button" to="/statistikk">Statistikk <ChevronRight/></Link>
+                <Link className="pure-button" to="/leggetilendreslette">Legge til/Endre/Slette <ChevronRight/></Link>
                 <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
                     <div className="pure-control-group">
                         <label htmlFor="amount">Nytt beløp</label>

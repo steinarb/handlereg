@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import ChevronRight from './bootstrap/ChevronRight';
 
 function Statistikk() {
     return (
@@ -8,12 +9,14 @@ function Statistikk() {
                 <a className="pure-menu-heading">Statistikk</a>
                 <ul className="pure-menu-list">
                     <li className="pure-menu-item"><Link className="pure-menu-link" to="/">Opp til matregnskap</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk/sumbutikk">Totalsum pr. butikk</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk/handlingerbutikk">Antall handlinger i butikk</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk/sistehandel">Siste handel i butikk</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk/sumyear">Total handlesum fordelt på år</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk/sumyearmonth">Total handlesum fordelt på år og måned</Link></li>
                 </ul>
+            </div>
+            <div className="content-wrapper navigation-link-list">
+                <Link className="pure-button" to="/statistikk/sumbutikk">Totalsum pr. butikk <ChevronRight/></Link>
+                <Link className="pure-button" to="/statistikk/handlingerbutikk">Antall handlinger i butikk <ChevronRight/></Link>
+                <Link className="pure-button" to="/statistikk/sistehandel">Siste handel i butikk <ChevronRight/></Link>
+                <Link className="pure-button" to="/statistikk/sumyear">Total handlesum fordelt på år <ChevronRight/></Link>
+                <Link className="pure-button" to="/statistikk/sumyearmonth">Total handlesum fordelt på år og måned <ChevronRight/></Link>
             </div>
         </div>
     );

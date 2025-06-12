@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import ChevronRight from './bootstrap/ChevronRight';
 
 export default function LeggtilEndreSlette() {
 
@@ -9,10 +10,12 @@ export default function LeggtilEndreSlette() {
                 <a className="pure-menu-heading">Lagre/Endre/Slette</a>
                 <ul className="pure-menu-list">
                     <li className="pure-menu-item"><Link className="pure-menu-link" to="/">Opp til matregnskap</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/favoritter">Favoritter</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/nybutikk">Ny butikk</Link></li>
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/endrebutikk">Endre butikk</Link></li>
                 </ul>
+            </div>
+            <div className="content-wrapper navigation-link-list">
+                <Link className="pure-button" to="/favoritter">Favoritter <ChevronRight/></Link>
+                <Link className="pure-button" to="/nybutikk">Ny butikk <ChevronRight/></Link>
+                <Link className="pure-button" to="/endrebutikk">Endre butikk <ChevronRight/></Link>
             </div>
         </div>
     );
