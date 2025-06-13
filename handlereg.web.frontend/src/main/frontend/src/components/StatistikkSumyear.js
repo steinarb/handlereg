@@ -13,7 +13,7 @@ export default function StatistikkSumyear() {
                     <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk">Tilbake</Link></li>
                 </ul>
             </div>
-            <div className="statistics-content-wrapper">
+            <div className="content-wrapper">
                 <div>
                     <table className="pure-table pure-table-bordered">
                         <thead>

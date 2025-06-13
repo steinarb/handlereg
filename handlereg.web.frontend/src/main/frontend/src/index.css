@@ -168,17 +168,6 @@
 
 }
 
-.statistics-content-wrapper {
-    /* These styles are required for the "scroll-over" effect */
-    position: absolute;
-    top: 10%;
-    width: 100%;
-    min-height: 12%;
-    z-index: 2;
-    background: white;
-
-}
-
 .select-box {
     position: relative;
     display: block;
