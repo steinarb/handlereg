@@ -21,7 +21,7 @@ export default function FavoritterSlett() {
     return (
         <div>
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-                <a className="pure-menu-heading">Slett butikk(er) fra favoritt-lista</a>
+                <a className="pure-menu-heading">Slett favoritter</a>
                 <ul className="pure-menu-list">
                     <li className="pure-menu-item"><Link className="pure-menu-link" to="/favoritter">Tilbake</Link></li>
                 </ul>

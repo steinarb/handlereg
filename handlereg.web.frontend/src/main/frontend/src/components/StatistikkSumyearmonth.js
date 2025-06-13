@@ -8,7 +8,7 @@ export default function StatistikkSumyearmonth() {
     return (
         <div>
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-                <a className="pure-menu-heading">Handlesum for år og måned</a>
+                <a className="pure-menu-heading">Sum for år og måned</a>
                 <ul className="pure-menu-list">
                     <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk">Tilbake</Link></li>
                 </ul>

@@ -9,7 +9,7 @@ export default function LeggtilEndreSlette() {
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a className="pure-menu-heading">Lagre/Endre/Slette</a>
                 <ul className="pure-menu-list">
-                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/">Opp til matregnskap</Link></li>
+                    <li className="pure-menu-item"><Link className="pure-menu-link" to="/">Opp</Link></li>
                 </ul>
             </div>
             <div className="content-wrapper navigation-link-list">

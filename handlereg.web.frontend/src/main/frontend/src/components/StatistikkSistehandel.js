@@ -8,7 +8,7 @@ export default function StatistikkSistehandel() {
     return (
         <div>
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-                <a className="pure-menu-heading">Siste handel gjort i butikk</a>
+                <a className="pure-menu-heading">Siste handel i butikk</a>
                 <ul className="pure-menu-list">
                     <li className="pure-menu-item"><Link className="pure-menu-link" to="/statistikk">Tilbake</Link></li>
                 </ul>
