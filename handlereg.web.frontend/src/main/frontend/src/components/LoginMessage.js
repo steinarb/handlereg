@@ -9,7 +9,7 @@ export default function LoginMessage() {
 
     return (
         <div class="alert alert-warning alert-white rounded" role="alert">
-            <div class="icon"><i class="fa fa-warning"></i></div>
+            <div class="icon"><i class="oi oi-warning"></i></div>
             {loginresultat.feilmelding}
         </div>
     );
