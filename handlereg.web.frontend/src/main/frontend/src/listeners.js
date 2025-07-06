@@ -1,8 +1,7 @@
 import { createListenerMiddleware } from '@reduxjs/toolkit';
 import { isAnyOf } from '@reduxjs/toolkit';
 import { api } from './api';
-import { LOCATION_CHANGE } from 'redux-first-history';
-import { VIS_KVITTERING, BUTIKKNAVN_ENDRE } from './actiontypes';
+import { VIS_KVITTERING, BUTIKKNAVN_ENDRE, LOCATION_CHANGE } from './actiontypes';
 
 const listenerMiddleware = createListenerMiddleware();
 
@@ -52,7 +51,7 @@ listenerMiddleware.startListening({
         const basename = listenerApi.getState().basename;
         const newLocation = action.payload.location.pathname;
         if (basename + '/nybutikk' === newLocation) {
-            listenerApi.dispatch(BUTIKKNAVN_ENDRE('')); // Blank receit display when navigating in the app
+            listenerApi.dispatch(BUTIKKNAVN_ENDRE('')); // Blank store name form when navigating into new store component
         }
     }
 })
