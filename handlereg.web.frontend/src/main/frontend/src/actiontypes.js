@@ -13,6 +13,4 @@ export const VELG_FAVORITTBUTIKK = createAction('VELG_FAVORITTBUTIKK');
 
 export const VIS_KVITTERING = createAction('VIS_KVITTERING');
 
-export const SET_BASENAME = createAction('SET_BASENAME');
-
 export const LOCATION_CHANGE = createAction('LOCATION_CHANGE');

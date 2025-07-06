@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { createReducer } from '@reduxjs/toolkit';
 import loginresultat from './loginresultatReducer';
 import { api } from '../api';
 import butikk from './butikkReducer';
@@ -8,9 +9,8 @@ import handletidspunkt from './handletidspunktReducer';
 import belop from './belopReducer';
 import viskvittering from './viskvitteringReducer';
 import favorittbutikk from './favorittbutikkReducer';
-import basename from './basenameReducer';
 
-export default (routerReducer) => combineReducers({
+export default (basename) => combineReducers({
     router: routerReducer,
     loginresultat,
     [api.reducerPath]: api.reducer,
@@ -21,5 +21,5 @@ export default (routerReducer) => combineReducers({
     belop,
     viskvittering,
     favorittbutikk,
-    basename,
+    basename: createReducer(basename, (builder) => builder),
 });
