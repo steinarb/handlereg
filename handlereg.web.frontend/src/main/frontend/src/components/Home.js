@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
 import {
@@ -12,6 +12,7 @@ import {
     BELOP_ENDRE,
     HOME_BUTIKKNAVN_ENDRE,
     DATO_ENDRE,
+    LOCATION_CHANGE,
 } from '../actiontypes';
 import Kvittering from './Kvittering';
 import ChevronRight from './bootstrap/ChevronRight';
@@ -29,6 +30,8 @@ export default function Home() {
     const handledato = handletidspunkt.split('T')[0];
     const belop = useSelector(state => state.belop).toString();
     const dispatch = useDispatch();
+    const location = useLocation();
+    useEffect(() => {dispatch(LOCATION_CHANGE(location))}, [location]);
     const onNextPageClicked = async () => fetchNextPage();
     const onRegistrerHandlingClicked = async () => {
         await postNyhandling({ storeId, belop, handletidspunkt, username })
