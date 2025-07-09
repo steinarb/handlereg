@@ -11,7 +11,6 @@ import viskvittering from './viskvitteringReducer';
 import favorittbutikk from './favorittbutikkReducer';
 
 export default (basename) => combineReducers({
-    router: routerReducer,
     loginresultat,
     [api.reducerPath]: api.reducer,
     butikk,
