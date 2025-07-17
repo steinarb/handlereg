@@ -45,8 +45,8 @@ export default function Home() {
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a className="pure-menu-heading">Matregnskap</a>
                 <ul className="pure-menu-list">
-                    <li className="pure-menu-item"><a className="pure-menu-link" href="../..">Opp</a></li>
                     <li className="pure-menu-item"><Link className="pure-menu-link" to="/hurtigregistrering">Hurtig</Link></li>
+                    <li className="pure-menu-item"><a className="pure-menu-link" href="../..">Opp</a></li>
                 </ul>
             </div>
             <div className="content-wrapper navigation-link-list">
