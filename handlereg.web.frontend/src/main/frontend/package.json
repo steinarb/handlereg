@@ -22,7 +22,7 @@
         "autoprefixer": "^10.4.21",
         "eslint": "^9.31.0",
         "eslint-plugin-react": "^7.37.5",
-        "vite": "^7.0.4",
+        "vite": "^7.0.5",
         "vite-plugin-simple-html": "^1.0.1"
     }
 }
