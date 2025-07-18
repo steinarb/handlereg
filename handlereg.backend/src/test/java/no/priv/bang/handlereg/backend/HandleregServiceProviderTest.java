@@ -21,6 +21,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.time.Year;
 import java.util.Date;
 import java.util.Optional;
@@ -550,6 +552,9 @@ class HandleregServiceProviderTest {
 
         var totaltHandlebelopPrAarOgMaaned = handlereg.totaltHandlebelopPrAarOgMaaned();
         assertThat(totaltHandlebelopPrAarOgMaaned).isNotEmpty();
+        var forsteTotaltHandlebelopPrAarOgMaaned = totaltHandlebelopPrAarOgMaaned.get(0);
+        assertThat(forsteTotaltHandlebelopPrAarOgMaaned.year()).isEqualTo(Year.now());
+        assertThat(forsteTotaltHandlebelopPrAarOgMaaned.month()).isEqualTo(LocalDate.now().getMonth());
     }
 
     @Test

@@ -373,7 +373,7 @@ public class HandleregServiceProvider implements HandleregService {
     public List<SumYearMonth> totaltHandlebelopPrAarOgMaaned() {
         var totaltHandlebelopPrAarOgMaaned = new ArrayList<SumYearMonth>();
         try (var connection = datasource.getConnection()) {
-            try (var statement = connection.prepareStatement("select aggregate_amount, aggregate_year, aggregate_month from sum_over_month_view")) {
+            try (var statement = connection.prepareStatement("select aggregate_amount, aggregate_year, aggregate_month from sum_over_month_view order by aggregate_year desc, aggregate_month desc")) {
                 try (var results = statement.executeQuery()) {
                     while(results.next()) {
                         var sumMonth = SumYearMonth.with()
