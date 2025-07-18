@@ -352,7 +352,7 @@ public class HandleregServiceProvider implements HandleregService {
     public List<SumYear> totaltHandlebelopPrAar() {
         var totaltHandlebelopPrAar = new ArrayList<SumYear>();
         try (var connection = datasource.getConnection()) {
-            try (var statement = connection.prepareStatement("select aggregate_amount, aggregate_year from sum_over_year_view")) {
+            try (var statement = connection.prepareStatement("select aggregate_amount, aggregate_year from sum_over_year_view order by aggregate_year desc")) {
                 try (var results = statement.executeQuery()) {
                     while(results.next()) {
                         var sumMonth = SumYear.with()

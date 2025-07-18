@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Year;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Properties;
@@ -516,6 +517,8 @@ class HandleregServiceProviderTest {
 
         var totaltHandlebelopPrAar = handlereg.totaltHandlebelopPrAar();
         assertThat(totaltHandlebelopPrAar).isNotEmpty();
+        var forsteHandlebelopPrAar = totaltHandlebelopPrAar.get(0);
+        assertThat(forsteHandlebelopPrAar.year()).isEqualTo(Year.now());
     }
 
     @Test
