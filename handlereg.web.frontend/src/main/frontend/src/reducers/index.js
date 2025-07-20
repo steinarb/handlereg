@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
 import loginresultat from './loginresultatReducer';
 import { api } from '../api';
-import butikk from './butikkReducer';
+import butikk from './butikkSlice';
 import butikknavn from './butikknavnReducer';
 import storeId from './storeIdReducer';
 import handletidspunkt from './handletidspunktReducer';

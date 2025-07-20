@@ -1,18 +1,25 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { VELG_BUTIKK } from '../actiontypes';
+import { createSlice } from '@reduxjs/toolkit';
 import { api } from '../api';
 
-const defaultState = {
+const initialState = {
     storeId: -1,
     butikknavn: '',
     gruppe: 2,
 };
 
-const butikkReducer = createReducer(defaultState, builder => {
-    builder
-        .addCase(VELG_BUTIKK, (state, action) => action.payload)
-        .addMatcher(api.endpoints.postNybutikk.matchFulfilled, () => ({ ...defaultState }))
-        .addMatcher(api.endpoints.postEndrebutikk.matchFulfilled, () => ({ ...defaultState }));
+export const butikkSlice = createSlice({
+    name: 'butikk',
+    initialState,
+    reducers: {
+        velgButikk: (_, action) => action.payload,
+    },
+    extraReducers: builder => {
+        builder
+            .addMatcher(api.endpoints.postNybutikk.matchFulfilled, () => ({ ...initialState }))
+            .addMatcher(api.endpoints.postEndrebutikk.matchFulfilled, () => ({ ...initialState }));
+    },
 });
 
-export default butikkReducer;
+export const { velgButikk } = butikkSlice.actions;
+
+export default butikkSlice.reducer;

@@ -1,11 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {
-    VELG_BUTIKK,
-} from '../actiontypes';
+import { velgButikk } from './butikkSlice';
 
 const valgtButikkReducer = createReducer(-1, builder => {
     builder
-        .addCase(VELG_BUTIKK, (state, action) => {
+        .addCase(velgButikk, (state, action) => {
             const { indeks } = action.payload;
             return indeks;
         });

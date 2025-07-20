@@ -5,10 +5,8 @@ import {
     useGetButikkerQuery,
     usePostEndrebutikkMutation,
 } from '../api';
-import {
-    VELG_BUTIKK,
-    BUTIKKNAVN_ENDRE,
-} from '../actiontypes';
+import { BUTIKKNAVN_ENDRE } from '../actiontypes';
+import { velgButikk } from '../reducers/butikkSlice';
 
 
 const uvalgtButikk = { storeId: -1, butikknavn: '', gruppe: 2 };
@@ -35,7 +33,7 @@ export default function EndreButikk() {
             </div>
             <div className="content-wrapper">
                 <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
-                    <select className="select-box" size="10" value={valgtButikk} onChange={e => dispatch(VELG_BUTIKK(butikker.find(b => b.storeId.toString()===e.target.value) || uvalgtButikk))}>
+                    <select className="select-box" size="10" value={valgtButikk} onChange={e => dispatch(velgButikk({ ...(butikker.find(b => b.storeId.toString()===e.target.value) || uvalgtButikk) }))}>
                         { butikker.map((b, indeks) => <option key={'butikk_' + b.storeId.toString()} value={b.storeId.toString()}>{b.butikknavn}</option>) }
                     </select>
                     <div className="pure-control-group">
