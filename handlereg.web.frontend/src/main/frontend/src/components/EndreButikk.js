@@ -5,8 +5,7 @@ import {
     useGetButikkerQuery,
     usePostEndrebutikkMutation,
 } from '../api';
-import { BUTIKKNAVN_ENDRE } from '../actiontypes';
-import { velgButikk } from '../reducers/butikkSlice';
+import { velgButikk, settButikknavn } from '../reducers/butikkSlice';
 
 
 const uvalgtButikk = { storeId: -1, butikknavn: '', gruppe: 2 };
@@ -14,13 +13,12 @@ const uvalgtButikk = { storeId: -1, butikknavn: '', gruppe: 2 };
 export default function EndreButikk() {
     const valgtButikk = useSelector(state => state.valgtButikk);
     const butikk = useSelector(state => state.butikk);
-    const butikknavn = useSelector(state => state.butikknavn);
     const { data: butikker = [] } = useGetButikkerQuery();
     const [ postEndrebutikk ] = usePostEndrebutikkMutation();
     const dispatch = useDispatch();
 
     const onLagreEndretButikkClicked = async () => {
-        await postEndrebutikk({ ...butikk, butikknavn });
+        await postEndrebutikk(butikk);
     }
 
     return (
@@ -38,7 +36,7 @@ export default function EndreButikk() {
                     </select>
                     <div className="pure-control-group">
                         <label htmlFor="amount">Butikknavn</label>
-                        <input id="amount" type="text" value={butikknavn} onChange={e => dispatch(BUTIKKNAVN_ENDRE(e.target.value))} />
+                        <input id="amount" type="text" value={butikk.butikknavn} onChange={e => dispatch(settButikknavn(e.target.value))} />
                     </div>
                     <div className="pure-control-group">
                         <div>&nbsp;</div>

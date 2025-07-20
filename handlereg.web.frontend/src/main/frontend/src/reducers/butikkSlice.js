@@ -11,7 +11,9 @@ export const butikkSlice = createSlice({
     name: 'butikk',
     initialState,
     reducers: {
+        blankUtButikk: () => ({ ...initialState }),
         velgButikk: (_, action) => action.payload,
+        settButikknavn: (state, action) => ({ ...state, butikknavn: action.payload }),
     },
     extraReducers: builder => {
         builder
@@ -20,6 +22,6 @@ export const butikkSlice = createSlice({
     },
 });
 
-export const { velgButikk } = butikkSlice.actions;
+export const { blankUtButikk, velgButikk, settButikknavn } = butikkSlice.actions;
 
 export default butikkSlice.reducer;

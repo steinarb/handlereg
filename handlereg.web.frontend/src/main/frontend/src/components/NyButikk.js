@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { usePostNybutikkMutation } from '../api';
-import { BUTIKKNAVN_ENDRE } from '../actiontypes';
+import { blankUtButikk, settButikknavn } from '../reducers/butikkSlice';
 
 export default function NyButikk() {
     const dispatch = useDispatch();
     const location = useLocation();
-    useEffect(() => {dispatch(BUTIKKNAVN_ENDRE(''))}, [location]);
-    const butikknavn = useSelector(state => state.butikknavn);
+    useEffect(() => {dispatch(blankUtButikk())}, [location]);
+    const butikk = useSelector(state => state.butikk);
     const [ postNybutikk ] = usePostNybutikkMutation();
 
     const onLeggTilButikkClicked = async () => {
-        await postNybutikk({ butikknavn, gruppe: 2 });
+        await postNybutikk({ ...butikk, gruppe: 2 });
     }
 
     return (
@@ -27,7 +27,7 @@ export default function NyButikk() {
                 <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
                     <div className="pure-control-group">
                         <label htmlFor="amount">Ny butikk</label>
-                        <input id="amount" type="text" value={butikknavn} onChange={e => dispatch(BUTIKKNAVN_ENDRE(e.target.value))} />
+                        <input id="amount" type="text" value={butikk.butikknavn} onChange={e => dispatch(settButikknavn(e.target.value))} />
                     </div>
                     <div className="pure-control-group">
                         <div>&nbsp;</div>

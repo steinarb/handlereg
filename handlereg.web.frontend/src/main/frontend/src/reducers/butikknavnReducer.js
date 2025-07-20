@@ -1,8 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {
-    HOME_BUTIKKNAVN_ENDRE,
-    BUTIKKNAVN_ENDRE,
-} from '../actiontypes';
+import { HOME_BUTIKKNAVN_ENDRE } from '../actiontypes';
 import { velgButikk } from './butikkSlice';
 import { api } from '../api';
 
@@ -13,7 +10,6 @@ const butikkReducer = createReducer(defaultState, builder => {
         .addMatcher(api.endpoints.getHandlinger.matchFulfilled, finnSisteButikknavn)
         .addCase(velgButikk, (state, action) => action.payload.butikknavn)
         .addCase(HOME_BUTIKKNAVN_ENDRE, (state, action) => action.payload.navn)
-        .addCase(BUTIKKNAVN_ENDRE, (state, action) => action.payload)
         .addMatcher(api.endpoints.postNybutikk.matchFulfilled, () => (defaultState))
         .addMatcher(api.endpoints.postEndrebutikk.matchFulfilled, () => (defaultState));
 });
