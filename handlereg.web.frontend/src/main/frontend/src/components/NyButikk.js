@@ -1,13 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { usePostNybutikkMutation } from '../api';
 import { BUTIKKNAVN_ENDRE } from '../actiontypes';
 
 export default function NyButikk() {
+    const dispatch = useDispatch();
+    const location = useLocation();
+    useEffect(() => {dispatch(BUTIKKNAVN_ENDRE(''))}, [location]);
     const butikknavn = useSelector(state => state.butikknavn);
     const [ postNybutikk ] = usePostNybutikkMutation();
-    const dispatch = useDispatch();
 
     const onLeggTilButikkClicked = async () => {
         await postNybutikk({ butikknavn, gruppe: 2 });
