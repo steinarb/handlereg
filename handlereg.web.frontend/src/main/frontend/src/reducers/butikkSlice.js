@@ -12,7 +12,7 @@ export const butikkSlice = createSlice({
     initialState,
     reducers: {
         blankUtButikk: () => ({ ...initialState }),
-        velgButikk: (_, action) => action.payload,
+        velgButikk: (state, action) => action.payload || state,
         settButikknavn: (state, action) => ({ ...state, butikknavn: action.payload }),
     },
     extraReducers: builder => {

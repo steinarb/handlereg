@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
@@ -10,10 +10,10 @@ import {
 } from '../api';
 import {
     BELOP_ENDRE,
-    HOME_BUTIKKNAVN_ENDRE,
     DATO_ENDRE,
     LOCATION_CHANGE,
 } from '../actiontypes';
+import { velgButikk } from '../reducers/butikkSlice';
 import Kvittering from './Kvittering';
 import ChevronRight from './bootstrap/ChevronRight';
 
@@ -24,8 +24,9 @@ export default function Home() {
     const username = oversikt.brukernavn;
     const { data: butikker = [] } = useGetButikkerQuery();
     const [ postNyhandling ] = usePostNyhandlingMutation();
-    const storeId = useSelector(state => state.storeId);
-    const butikknavn = useSelector(state => state.butikknavn);
+    const butikk = useSelector(state => state.butikk);
+    const [butikknavn, setButikknavn] = useState(butikk.butikknavn);
+    useEffect(() => {setButikknavn(butikk.butikknavn)}, [butikk]);
     const handletidspunkt = useSelector(state => state.handletidspunkt);
     const handledato = handletidspunkt.split('T')[0];
     const belop = useSelector(state => state.belop).toString();
@@ -34,7 +35,7 @@ export default function Home() {
     useEffect(() => {dispatch(LOCATION_CHANGE(location))}, [location]);
     const onNextPageClicked = async () => fetchNextPage();
     const onRegistrerHandlingClicked = async () => {
-        await postNyhandling({ storeId, belop, handletidspunkt, username })
+        await postNyhandling({ storeId: butikk.storeId, belop, handletidspunkt, username })
     }
     const swipeHandlers = useSwipeable({
         onSwipedUp: async () => fetchNextPage(),
@@ -64,10 +65,13 @@ export default function Home() {
                             id="valgt-butikk"
                             name="valgt-butikk"
                             value={butikknavn}
-                            onChange={e => dispatch(HOME_BUTIKKNAVN_ENDRE({ navn: e.target.value, butikker }))}/>
+                            onChange={e => {
+                                dispatch(velgButikk(finnButikkFraNavn(e, butikker)));
+                                setButikknavn(e.target.value);
+                            }}/>
                         <datalist id="butikker">
                             <option key="-1" value="" />
-                            {butikker.map(butikk => <option key={butikk.storeId} value={butikk.butikknavn}/>)}
+                            {butikker.map(b => <option key={b.storeId} value={b.butikknavn}/>)}
                         </datalist>
                     </div>
                     <div className="pure-control-group">
@@ -112,4 +116,9 @@ export default function Home() {
             </div>
         </div>
     );
+}
+
+function finnButikkFraNavn(e, butikker) {
+    const butikknavn = e.target.value;
+    return butikker.find(b => b.butikknavn === butikknavn);
 }
