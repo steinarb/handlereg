@@ -22,7 +22,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.Year;
 import java.util.Date;
 import java.util.Optional;
@@ -291,9 +290,11 @@ class HandleregServiceProviderTest {
         handlereg.activate();
 
         var butikkerFoerOppdatering = handlereg.finnButikker();
-        var nybutikk = Butikk.with().butikknavn("Spar fjellheimen").build();
+        var nybutikk = Butikk.with().butikknavn(" Spar fjellheimen  ").build();
         var butikker = handlereg.leggTilButikk(nybutikk);
-        assertEquals(butikkerFoerOppdatering.size() + 1, butikker.size());
+        assertThat(butikker).hasSizeGreaterThan(butikkerFoerOppdatering.size());
+        var sisteButikk = butikker.get(butikker.size()-1);
+        assertThat(sisteButikk.butikknavn()).isEqualTo("Spar fjellheimen");
     }
 
     @Test
@@ -324,11 +325,11 @@ class HandleregServiceProviderTest {
         var butikkerFoerEndring = handlereg.finnButikker();
         var butikk = butikkerFoerEndring.get(10);
         var butikkId = butikk.storeId();
-        var nyttButikkNavn = "Joker Særbøåsen";
+        var nyttButikkNavn = " Joker Særbøåsen  ";
         var butikkMedEndretTittel = endreTittel(butikk, nyttButikkNavn);
         var butikker = handlereg.endreButikk(butikkMedEndretTittel);
         var oppdatertButikk = butikker.stream().filter(b -> b.storeId() == butikkId).findFirst().get();
-        assertEquals(nyttButikkNavn, oppdatertButikk.butikknavn());
+        assertThat(oppdatertButikk.butikknavn()).isEqualTo(nyttButikkNavn.trim());
     }
 
     @Test

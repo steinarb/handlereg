@@ -24,6 +24,8 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Activate;
@@ -228,7 +230,7 @@ public class HandleregServiceProvider implements HandleregService {
     @Override
     public List<Butikk> endreButikk(Butikk butikkSomSkalEndres) {
         var butikkId = butikkSomSkalEndres.storeId();
-        var butikknavn = butikkSomSkalEndres.butikknavn();
+        var butikknavn = Optional.ofNullable(butikkSomSkalEndres.butikknavn()).map(n -> n.trim()).orElse(null);
         var gruppe = butikkSomSkalEndres.gruppe();
         var rekkefolge = butikkSomSkalEndres.rekkefolge();
         var sql = "update stores set store_name=?, gruppe=?, rekkefolge=? where store_id=?";
@@ -253,7 +255,7 @@ public class HandleregServiceProvider implements HandleregService {
         var sql = "insert into stores (store_name, gruppe, rekkefolge) values (?, ?, ?)";
         try (var connection = datasource.getConnection()) {
             try(var statement = connection.prepareStatement(sql)) {
-                statement.setString(1, nybutikk.butikknavn());
+                statement.setString(1, nybutikk.butikknavn().trim());
                 statement.setInt(2, gruppe);
                 statement.setInt(3, rekkefolge);
                 statement.executeUpdate();
