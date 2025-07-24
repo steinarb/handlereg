@@ -7,7 +7,7 @@ export default function StatistikkSumyear() {
     const { data: sumyear = [] } = useGetSumYearQuery();
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/statistikk'),
+        onSwipedRight: async () => navigate('/statistikk'),
     });
 
     return (

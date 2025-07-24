@@ -7,7 +7,7 @@ export default function StatistikkHandlingerbutikk() {
     const { data: handlingerbutikk = [] } = useGetHandlingerButikkQuery();
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/statistikk'),
+        onSwipedRight: async () => navigate('/statistikk'),
     });
 
     return (

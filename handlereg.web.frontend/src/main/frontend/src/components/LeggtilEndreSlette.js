@@ -6,8 +6,8 @@ import ChevronRight from './bootstrap/ChevronRight';
 export default function LeggtilEndreSlette() {
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/'),
-        onSwipedRight: async () => navigate('/favoritter'),
+        onSwipedRight: async () => navigate('/'),
+        onSwipedLeft: async () => navigate('/favoritter'),
     });
 
     return (

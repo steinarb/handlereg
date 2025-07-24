@@ -7,7 +7,7 @@ export default function StatistikkSumbutikk() {
     const { data: sumbutikk = [] } = useGetSumButikkQuery();
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/statistikk'),
+        onSwipedRight: async () => navigate('/statistikk'),
     });
 
     return (

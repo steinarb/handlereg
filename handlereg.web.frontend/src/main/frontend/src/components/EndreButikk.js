@@ -22,7 +22,7 @@ export default function EndreButikk() {
     }
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/leggetilendreslette'),
+        onSwipedRight: async () => navigate('/leggetilendreslette'),
     });
 
     return (

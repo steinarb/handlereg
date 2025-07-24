@@ -6,8 +6,8 @@ import ChevronRight from './bootstrap/ChevronRight';
 function Statistikk() {
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/'),
-        onSwipedRight: async () => navigate('/statistikk/sumbutikk'),
+        onSwipedRight: async () => navigate('/'),
+        onSwipedLeft: async () => navigate('/statistikk/sumbutikk'),
     });
 
     return (

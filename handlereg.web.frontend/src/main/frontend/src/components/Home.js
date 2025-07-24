@@ -40,7 +40,7 @@ export default function Home() {
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
         onSwipedUp: async () => fetchNextPage(),
-        onSwipedRight: async () => navigate('/hurtigregistrering'),
+        onSwipedLeft: async () => navigate('/hurtigregistrering'),
     });
 
     return (

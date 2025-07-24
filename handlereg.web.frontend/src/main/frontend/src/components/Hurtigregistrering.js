@@ -25,7 +25,7 @@ export default function Hurtigregistrering() {
     }
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/'),
+        onSwipedRight: async () => navigate('/'),
     });
 
     return (

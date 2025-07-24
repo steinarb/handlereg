@@ -6,8 +6,8 @@ import ChevronRight from './bootstrap/ChevronRight';
 export default function Favoritter() {
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/leggetilendreslette'),
-        onSwipedRight: async () => navigate('/favoritter/leggtil'),
+        onSwipedRight: async () => navigate('/leggetilendreslette'),
+        onSwipedLeft: async () => navigate('/favoritter/leggtil'),
     });
 
     return (

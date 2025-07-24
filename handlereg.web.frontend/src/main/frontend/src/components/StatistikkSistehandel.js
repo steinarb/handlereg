@@ -7,7 +7,7 @@ export default function StatistikkSistehandel() {
     const { data: sistehandel = [] } = useGetSisteHandelQuery();
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/statistikk'),
+        onSwipedRight: async () => navigate('/statistikk'),
     });
 
     return (

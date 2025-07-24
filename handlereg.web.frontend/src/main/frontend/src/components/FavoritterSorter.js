@@ -19,7 +19,7 @@ export default function FavoritterSorter() {
     }
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/favoritter'),
+        onSwipedRight: async () => navigate('/favoritter'),
     });
 
     return (

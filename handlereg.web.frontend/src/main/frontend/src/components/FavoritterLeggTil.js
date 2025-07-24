@@ -27,7 +27,7 @@ export default function FavoritterLeggTil() {
     }
     const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
-        onSwipedLeft: async () => navigate('/favoritter'),
+        onSwipedRight: async () => navigate('/favoritter'),
     });
 
     return (
