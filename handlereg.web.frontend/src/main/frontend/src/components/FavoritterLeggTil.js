@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useSwipeable } from 'react-swipeable';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     useGetOversiktQuery,
@@ -21,13 +22,16 @@ export default function FavoritterLeggTil() {
     const ledigeButikker = butikker.filter(butikk => !favoritter.find(fav => fav.store.storeId === butikk.storeId));
     const ingenButikkValgt = favorittbutikk === -1;
     const dispatch = useDispatch();
-
     const onLeggTilFavorittClicked = async () => {
         await postFavorittLeggtil({ brukernavn, butikk: { storeId: favorittbutikk }});
     }
+    const navigate = useNavigate();
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: async () => navigate('/favoritter'),
+    });
 
     return (
-        <div>
+        <div {...swipeHandlers}>
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a className="pure-menu-heading">Legg til favoritt</a>
                 <ul className="pure-menu-list">

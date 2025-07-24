@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
+import { useSwipeable } from 'react-swipeable';
 import { useSelector, useDispatch } from 'react-redux';
 import { usePostNybutikkMutation } from '../api';
 import { blankUtButikk, settButikknavn } from '../reducers/butikkSlice';
@@ -10,13 +11,16 @@ export default function NyButikk() {
     useEffect(() => {dispatch(blankUtButikk())}, [location]);
     const butikk = useSelector(state => state.butikk);
     const [ postNybutikk ] = usePostNybutikkMutation();
-
     const onLeggTilButikkClicked = async () => {
         await postNybutikk({ ...butikk, gruppe: 2 });
     }
+    const navigate = useNavigate();
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: async () => navigate('/leggetilendreslette'),
+    });
 
     return (
-        <div>
+        <div {...swipeHandlers}>
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a className="pure-menu-heading">Ny butikk</a>
                 <ul className="pure-menu-list">

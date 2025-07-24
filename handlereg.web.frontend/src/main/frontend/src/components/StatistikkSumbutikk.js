@@ -1,12 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useSwipeable } from 'react-swipeable';
 import { useGetSumButikkQuery } from '../api';
 
 export default function StatistikkSumbutikk() {
     const { data: sumbutikk = [] } = useGetSumButikkQuery();
+    const navigate = useNavigate();
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: async () => navigate('/statistikk'),
+    });
 
     return (
-        <div>
+        <div {...swipeHandlers}>
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a className="pure-menu-heading">Sum per butikk</a>
                 <ul className="pure-menu-list">

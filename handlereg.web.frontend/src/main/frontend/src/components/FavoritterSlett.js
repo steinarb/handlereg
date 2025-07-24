@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useSwipeable } from 'react-swipeable';
 import { useDispatch } from 'react-redux';
 import {
     useGetOversiktQuery,
@@ -13,13 +14,16 @@ export default function FavoritterSlett() {
     const { data: favoritter = [] } = useGetFavoritterQuery(brukernavn, { skip: !oversiktIsSuccess });
     const [ postFavorittSlett ] = usePostFavorittSlettMutation();
     const dispatch = useDispatch();
-
     const onFavorittClicked = async (favoritt) => {
         await postFavorittSlett(favoritt);
     }
+    const navigate = useNavigate();
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: async () => navigate('/favoritter'),
+    });
 
     return (
-        <div>
+        <div {...swipeHandlers}>
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a className="pure-menu-heading">Slett favoritter</a>
                 <ul className="pure-menu-list">

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
+import { useSwipeable } from 'react-swipeable';
 import {
     useGetOversiktQuery,
     useGetFavoritterQuery,
@@ -19,13 +20,16 @@ export default function Hurtigregistrering() {
     const belop = useSelector(state => state.belop).toString();
     const [ postNyhandling ] = usePostNyhandlingMutation();
     const dispatch = useDispatch();
-
     const onStoreClicked = async (storeId) => {
         await postNyhandling({ storeId, belop, handletidspunkt, username })
     }
+    const navigate = useNavigate();
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: async () => navigate('/'),
+    });
 
     return (
-        <div>
+        <div {...swipeHandlers}>
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a className="pure-menu-heading">Hurtigregistrering</a>
                 <ul className="pure-menu-list">

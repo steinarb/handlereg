@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSwipeable } from 'react-swipeable';
 import {
@@ -37,8 +37,10 @@ export default function Home() {
     const onRegistrerHandlingClicked = async () => {
         await postNyhandling({ storeId: butikk.storeId, belop, handletidspunkt, username })
     }
+    const navigate = useNavigate();
     const swipeHandlers = useSwipeable({
         onSwipedUp: async () => fetchNextPage(),
+        onSwipedRight: async () => navigate('/hurtigregistrering'),
     });
 
     return (

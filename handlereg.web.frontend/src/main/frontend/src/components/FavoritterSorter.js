@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useSwipeable } from 'react-swipeable';
 import {
     useGetOversiktQuery,
     useGetFavoritterQuery,
@@ -13,13 +14,16 @@ export default function FavoritterSorter() {
     const { brukernavn } = oversikt;
     const { data: favoritter = [] } = useGetFavoritterQuery(brukernavn, { skip: !oversiktIsSuccess });
     const [ postFavorittBytt ] = usePostFavorittByttMutation();
-
     const onFavorittBytt = async (forste, andre) => {
         await postFavorittBytt({ brukernavn, forste, andre });
     }
+    const navigate = useNavigate();
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: async () => navigate('/favoritter'),
+    });
 
     return (
-        <div>
+        <div {...swipeHandlers}>
             <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
                 <a className="pure-menu-heading">Sorter favoritter</a>
                 <ul className="pure-menu-list">
