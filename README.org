@@ -3,7 +3,7 @@
 Dette er en webapp som brukes til å registrere handling i butikker.
 
 ** Utviklingsstatus
-[[https://github.com/steinarb/handlereg/actions/workflows/handlereg-maven-ci-build.yml][file:https://github.com/steinarb/handlereg/actions/workflows/handlereg-maven-ci-build.yml/badge.svg]]
+[[https://github.com/steinarb/handlereg/actions/workflows/handlereg-maven-ci-and-deploy-build.yml][file:https://github.com/steinarb/handlereg/actions/workflows/handlereg-maven-ci-and-deploy-build.yml/badge.svg]]
 
 ** Installasjon
 
