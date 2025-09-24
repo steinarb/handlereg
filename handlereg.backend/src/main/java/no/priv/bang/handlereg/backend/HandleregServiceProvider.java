@@ -230,7 +230,7 @@ public class HandleregServiceProvider implements HandleregService {
     @Override
     public List<Butikk> endreButikk(Butikk butikkSomSkalEndres) {
         var butikkId = butikkSomSkalEndres.storeId();
-        var butikknavn = Optional.ofNullable(butikkSomSkalEndres.butikknavn()).map(n -> n.trim()).orElse(null);
+        var butikknavn = Optional.ofNullable(butikkSomSkalEndres.butikknavn()).map(String::trim).orElse(null);
         var gruppe = butikkSomSkalEndres.gruppe();
         var rekkefolge = butikkSomSkalEndres.rekkefolge();
         var sql = "update stores set store_name=?, gruppe=?, rekkefolge=? where store_id=?";
