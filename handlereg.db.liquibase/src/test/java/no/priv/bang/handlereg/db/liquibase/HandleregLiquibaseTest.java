@@ -15,13 +15,11 @@
  */
 package no.priv.bang.handlereg.db.liquibase;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.db.api.Assertions.assertThat;
 import java.sql.Connection;
 import java.io.PrintWriter;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -29,7 +27,6 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.assertj.db.type.AssertDbConnectionFactory;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.ops4j.pax.jdbc.derby.impl.DerbyDataSourceFactory;
 import org.osgi.service.jdbc.DataSourceFactory;
@@ -92,66 +89,6 @@ class HandleregLiquibaseTest {
 
         try(var connection = datasource.getConnection()) {
             handleregLiquibase.updateSchema(connection);
-        }
-    }
-
-    @Disabled("Pseudo-test that imports legacy data and turns them into SQL files that can be imported into an SQL database")
-    @Test
-    void createSqlFromOriginalData() throws Exception {
-        var connection = createConnection("handlereg");
-        var handleregLiquibase = new HandleregLiquibase();
-        handleregLiquibase.createInitialSchema(connection);
-        var oldData = new OldData();
-        assertEquals(137, oldData.butikker.size());
-        assertEquals(4501, oldData.handlinger.size());
-        var jdAccountid = addAccount(connection, "sb");
-        var jadAccountid = addAccount(connection, "tlf");
-        var naerbutikkRekkefolge = 0;
-        var annenbutikkRekkefolge = 0;
-        var gruppe = 1;
-        var rekkefolge = 0;
-        for (var store : oldData.butikker) {
-            var deaktivert = oldData.deaktivert.contains(store);
-            if (oldData.naerbutikker.contains(store)) {
-                gruppe = 1;
-                rekkefolge = (naerbutikkRekkefolge += 10);
-            } else {
-                gruppe = 2;
-                rekkefolge = (annenbutikkRekkefolge += 10);
-            }
-            addStore(connection, store, gruppe, rekkefolge, deaktivert);
-        }
-
-        var accountids = new HashMap<>();
-        accountids.put("jd", jdAccountid);
-        accountids.put("jad", jadAccountid);
-        try(var storeWriter = new PrintWriter("accounts.sql")) {
-            storeWriter.println("--liquibase formatted sql");
-            storeWriter.println("--changeset sb:example_accounts");
-            try(var statement = connection.prepareStatement("select username from accounts order by account_id")) {
-                var results = statement.executeQuery();
-                while(results.next()) {
-                    var username = results.getString(1);
-                    storeWriter.println(String.format("insert into accounts (username) values ('%s');", username));
-                }
-            }
-        }
-
-        var storeids = findStoreIds(connection);
-        assertEquals(137, storeids.size());
-
-        var format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try(var transactionWriter = new PrintWriter("transactions.sql")) {
-            transactionWriter.println("--liquibase formatted sql");
-            transactionWriter.println("--changeset sb:example_transactions");
-            for (Handling handling : oldData.handlinger) {
-                var accountid = accountids.get(handling.username);
-                System.out.println("handling: " + handling);
-                var storeid = storeids.get(handling.butikk);
-                double belop = handling.belop;
-                var timestamp = format.format(handling.timestamp);
-                transactionWriter.println(String.format("insert into transactions (account_id, store_id, transaction_time, transaction_amount) values (%d, %d, '%s', %f);", accountid, storeid, timestamp, belop));
-            }
         }
     }
 
@@ -255,11 +192,6 @@ class HandleregLiquibaseTest {
             statement.setInt(3, rekkefolge);
             statement.executeUpdate();
         }
-    }
-
-    private Connection createConnection(String dbname) throws Exception {
-        var dataSource = createDataSource(dbname);
-        return dataSource.getConnection();
     }
 
     private DataSource createDataSource(String dbname) throws SQLException {
