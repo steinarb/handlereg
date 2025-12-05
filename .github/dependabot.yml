@@ -20,3 +20,9 @@ updates:
   directory: "/handlereg.web.frontend/src/main/frontend/"
   schedule:
     interval: "daily"
+  groups:
+    react-updates:
+      applies-to: version-updates
+      patterns:
+        - "react"
+        - "react-dom"
