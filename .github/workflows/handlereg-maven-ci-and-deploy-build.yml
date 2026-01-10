@@ -1,4 +1,4 @@
-name: handlereg CI build
+name: handlereg CI and deploy build
 
 on:
   push:
