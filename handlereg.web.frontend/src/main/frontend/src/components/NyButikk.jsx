@@ -8,7 +8,7 @@ import { blankUtButikk, settButikknavn } from '../reducers/butikkSlice';
 export default function NyButikk() {
     const dispatch = useDispatch();
     const location = useLocation();
-    useEffect(() => {dispatch(blankUtButikk())}, [location]);
+    useEffect(() => {dispatch(blankUtButikk())}, [dispatch, location]);
     const butikk = useSelector(state => state.butikk);
     const [ postNybutikk ] = usePostNybutikkMutation();
     const onLeggTilButikkClicked = async () => {

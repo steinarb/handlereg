@@ -32,7 +32,7 @@ export default function Home() {
     const belop = useSelector(state => state.belop).toString();
     const dispatch = useDispatch();
     const location = useLocation();
-    useEffect(() => {dispatch(LOCATION_CHANGE(location))}, [location]);
+    useEffect(() => {dispatch(LOCATION_CHANGE(location))}, [dispatch, location]);
     const onNextPageClicked = async () => fetchNextPage();
     const onRegistrerHandlingClicked = async () => {
         await postNyhandling({ storeId: butikk.storeId, belop, handletidspunkt, username })
