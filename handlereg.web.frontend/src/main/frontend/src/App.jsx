@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { useGetLogintilstandQuery } from './api';
 import { Routes, Route, BrowserRouter as Router } from 'react-router';
 import './index.css';
@@ -22,7 +21,7 @@ import Login from './components/Login';
 import Unauthorized from './components/Unauthorized';
 
 export default function App(props) {
-    const { history, basename } = props;
+    const { basename } = props;
     useGetLogintilstandQuery();
 
     return (

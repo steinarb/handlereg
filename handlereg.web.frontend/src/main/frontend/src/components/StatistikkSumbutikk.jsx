@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Link, useNavigate } from 'react-router';
 import { useSwipeable } from 'react-swipeable';
 import { useGetSumButikkQuery } from '../api';

@@ -1,5 +1,4 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { usePostLoginMutation } from '../api';
 import { api } from '../api';
 
 const loginresultatReducer = createReducer({ authorized: true }, builder => {

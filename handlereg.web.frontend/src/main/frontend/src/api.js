@@ -13,7 +13,7 @@ export const api = createApi({
         getHandlinger: builder.infiniteQuery({
             infiniteQueryOptions: {
                 initialPageParam: 0,
-                getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => lastPageParam + 1,
+                getNextPageParam: (lastPage, allPages, lastPageParam) => lastPageParam + 1,
             },
             query: ({ queryArg, pageParam }) => '/handlinger/' + queryArg.toString() + '?pagenumber=' + pageParam, providesTags: ['Handlinger']
         }),

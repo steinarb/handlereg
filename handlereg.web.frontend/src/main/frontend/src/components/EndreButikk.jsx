@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useSwipeable } from 'react-swipeable';
 import { useSelector, useDispatch } from 'react-redux';
@@ -36,7 +35,7 @@ export default function EndreButikk() {
             <div className="content-wrapper">
                 <form className="pure-form pure-form-aligned" onSubmit={ e => { e.preventDefault(); }}>
                     <select className="select-box" size="10" value={valgtButikk} onChange={e => dispatch(velgButikk({ ...(butikker.find(b => b.storeId.toString()===e.target.value) || uvalgtButikk) }))}>
-                        { butikker.map((b, indeks) => <option key={'butikk_' + b.storeId.toString()} value={b.storeId.toString()}>{b.butikknavn}</option>) }
+                        { butikker.map((b) => <option key={'butikk_' + b.storeId.toString()} value={b.storeId.toString()}>{b.butikknavn}</option>) }
                     </select>
                     <div className="pure-control-group">
                         <label htmlFor="amount">Butikknavn</label>

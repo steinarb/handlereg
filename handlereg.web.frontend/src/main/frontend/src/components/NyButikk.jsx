@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useSwipeable } from 'react-swipeable';
 import { useSelector, useDispatch } from 'react-redux';

@@ -1,7 +1,5 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useSwipeable } from 'react-swipeable';
-import { useDispatch } from 'react-redux';
 import {
     useGetOversiktQuery,
     useGetFavoritterQuery,
@@ -13,7 +11,6 @@ export default function FavoritterSlett() {
     const { brukernavn } = oversikt;
     const { data: favoritter = [] } = useGetFavoritterQuery(brukernavn, { skip: !oversiktIsSuccess });
     const [ postFavorittSlett ] = usePostFavorittSlettMutation();
-    const dispatch = useDispatch();
     const onFavorittClicked = async (favoritt) => {
         await postFavorittSlett(favoritt);
     }
