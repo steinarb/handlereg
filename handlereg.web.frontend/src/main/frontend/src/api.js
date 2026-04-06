@@ -32,7 +32,9 @@ export const api = createApi({
                 try {
                     const { data: postNyhandlingResult } = await queryFulfilled;
                     dispatch(api.util.updateQueryData('getOversikt', undefined, () => postNyhandlingResult));
-                } catch {}
+                } catch {
+                    // Skip and continue
+                }
             },
             invalidatesTags: ['Handlinger'],
         }),
@@ -42,7 +44,9 @@ export const api = createApi({
                 try {
                     const { data: postEndrebutikkResult } = await queryFulfilled;
                     dispatch(api.util.updateQueryData('getButikker', undefined, () => postEndrebutikkResult));
-                } catch {}
+                } catch {
+                    // Skip and continue
+                }
             },
         }),
         postNybutikk: builder.mutation({
@@ -51,7 +55,9 @@ export const api = createApi({
                 try {
                     const { data: postNybutikkResult } = await queryFulfilled;
                     dispatch(api.util.updateQueryData('getButikker', undefined, () => postNybutikkResult));
-                } catch {}
+                } catch {
+                    // Skip and continue
+                }
             },
         }),
         postFavorittLeggtil: builder.mutation({
@@ -60,7 +66,9 @@ export const api = createApi({
                 try {
                     const { data: postFavorittLeggtilResult } = await queryFulfilled;
                     dispatch(api.util.updateQueryData('getFavoritter', body.brukernavn, () => postFavorittLeggtilResult));
-                } catch {}
+                } catch {
+                    // Skip and continue
+                }
             },
         }),
         postFavorittSlett: builder.mutation({
@@ -69,7 +77,9 @@ export const api = createApi({
                 try {
                     const { data: postFavorittSlettResult } = await queryFulfilled;
                     dispatch(api.util.updateQueryData('getFavoritter', body.brukernavn, () => postFavorittSlettResult ));
-                } catch {}
+                } catch {
+                    // Skip and continue
+                }
             },
         }),
         postFavorittBytt: builder.mutation({
@@ -78,7 +88,9 @@ export const api = createApi({
                 try {
                     const { data: postFavorittByttResult } = await queryFulfilled;
                     dispatch(api.util.updateQueryData('getFavoritter', body.brukernavn, () => postFavorittByttResult ));
-                } catch {}
+                } catch {
+                    // Skip and continue
+                }
             },
         }),
     }),
