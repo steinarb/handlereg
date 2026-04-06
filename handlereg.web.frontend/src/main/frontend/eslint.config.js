@@ -20,6 +20,7 @@ export default [
         },
         rules: {
             'react/prop-types': 'off',
+            '@eslint-react/set-state-in-effect': 'off',
         },
     },
 ];
