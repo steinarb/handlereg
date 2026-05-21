@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2025 Steinar Bang
+ * Copyright 2019-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,12 @@
  */
 package no.priv.bang.handlereg.web.api;
 
+import static org.mockito.AdditionalAnswers.delegatesTo;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.withSettings;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,7 +77,7 @@ public class ShiroTestBase {
         var dummyrequest = new MockHttpServletRequest();
         dummyrequest.setSession(session);
         var dummyresponse = new MockHttpServletResponse();
-        return createSubjectAndBindItToThread(dummyrequest, dummyresponse);
+        return createSubjectAndBindItToThread(wrapRequestInMock(dummyrequest), dummyresponse);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -115,6 +118,13 @@ public class ShiroTestBase {
         }
 
         return findUserFromRealm(realm, username);
+    }
+
+    // Workaround for MockHttpServletRequest not implementing all methods of HttpServletRequest interface in classpath
+    private HttpServletRequest wrapRequestInMock(HttpServletRequest request) {
+        var wrapped = mock(HttpServletRequest.class, withSettings().defaultAnswer(delegatesTo(request)));
+        doReturn("").when(wrapped).changeSessionId();
+        return wrapped;
     }
 
     private static SimpleAccount findUserFromRealm(SimpleAccountRealm realm, String username) {
