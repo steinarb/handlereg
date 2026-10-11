@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.db.liquibase.test;
 /*
- * Copyright 2018-2025 Steinar Bang
+ * Copyright 2018-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +14,6 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.db.liquibase.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,7 +57,7 @@ class HandleregDerbyTestDatabaseTest {
     void testFailWhenCreatingInitialSchema() throws Exception {
         var realdb = createDataSource("handlereg1");
         var connection = spy(realdb.getConnection());
-        // The wrapped JDBC connection throws SQLException on setAutoCommit(anyBoolean());
+        // The wrapped JDBC connection throws SQLException on setAutoCommit(anyBoolean())
         var datasource = spy(realdb);
         when(datasource.getConnection())
             .thenReturn(connection)
@@ -90,7 +90,7 @@ class HandleregDerbyTestDatabaseTest {
     @Test
     void testFailWhenUpdatingsSchema() throws Exception {
         var connection = spy(createDataSource("handlereg3").getConnection());
-        // The wrapped JDBC connection throws SQLException on setAutoCommit(anyBoolean());
+        // The wrapped JDBC connection throws SQLException on setAutoCommit(anyBoolean())
         var datasource = spy(createDataSource("handlereg4"));
         when(datasource.getConnection())
             .thenCallRealMethod()
