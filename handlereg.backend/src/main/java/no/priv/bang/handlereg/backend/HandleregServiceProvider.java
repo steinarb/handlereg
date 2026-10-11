@@ -188,7 +188,7 @@ public class HandleregServiceProvider implements HandleregService {
 
     @Override
     public Oversikt registrerHandling(NyHandling handling) {
-        var transactionTime = handling.handletidspunkt() == null ? ZonedDateTime.now() : handling.handletidspunkt();
+        var transactionTime = handling.handletidspunkt() == null ? ZonedDateTime.now(ZoneId.systemDefault()) : handling.handletidspunkt();
         var sql = "insert into transactions (account_id, store_id, transaction_amount, transaction_time) values ((select account_id from accounts where username=?), ?, ?, ?)";
         try(var connection = datasource.getConnection()) {
             try(var statement = connection.prepareStatement(sql)) {
