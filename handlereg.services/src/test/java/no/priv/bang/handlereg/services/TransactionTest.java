@@ -17,15 +17,14 @@ package no.priv.bang.handlereg.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Date;
-
+import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Test;
 
 class TransactionTest {
 
     @Test
     void testCreate() {
-        var now = new Date();
+        var now = ZonedDateTime.now();
         var bean = Transaction.with()
             .transactionId(1)
             .handletidspunkt(now)

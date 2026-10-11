@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.web.api.resources;
 /*
- * Copyright 2019-2024 Steinar Bang
+ * Copyright 2019-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +14,6 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.web.api.resources;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -21,8 +21,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.time.Month;
 import java.time.Year;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import org.junit.jupiter.api.Test;
 
 import no.priv.bang.handlereg.services.Butikk;
@@ -67,7 +67,7 @@ class StatistikkResourceTest {
     @Test
     void testSisteHandelIButikk() {
         var handlereg = mock(HandleregService.class);
-        when(handlereg.sisteHandelIButikk()).thenReturn(Arrays.asList(ButikkDate.with().butikk(Butikk.with().butikknavn("Spar Fjellheimen").build()).date(new Date()).build(), ButikkDate.with().butikk(Butikk.with().butikknavn("Joker Nord").build()).date(new Date()).build()));
+        when(handlereg.sisteHandelIButikk()).thenReturn(Arrays.asList(ButikkDate.with().butikk(Butikk.with().butikknavn("Spar Fjellheimen").build()).date(ZonedDateTime.now()).build(), ButikkDate.with().butikk(Butikk.with().butikknavn("Joker Nord").build()).date(ZonedDateTime.now()).build()));
         var logservice = new MockLogService();
         var resource = new StatistikkResource();
         resource.handlereg = handlereg;

@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.web.api.resources;
 /*
- * Copyright 2019-2025 Steinar Bang
+ * Copyright 2019-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +14,13 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.web.api.resources;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import javax.ws.rs.InternalServerErrorException;
 
 import org.junit.jupiter.api.Test;
@@ -90,7 +90,7 @@ class HandlingResourceTest {
             .accountid(1)
             .storeId(1)
             .belop(510)
-            .handletidspunkt(new Date())
+            .handletidspunkt(ZonedDateTime.now())
             .build();
         var oppdatertOversikt = resource.nyhandling(handling);
         assertEquals(oversikt.balanse(), oppdatertOversikt.balanse());
@@ -109,7 +109,7 @@ class HandlingResourceTest {
             .accountid(1)
             .storeId(1)
             .belop(510)
-            .handletidspunkt(new Date())
+            .handletidspunkt(ZonedDateTime.now())
             .build();
         assertThrows(InternalServerErrorException.class, () -> resource.nyhandling(handling));
     }

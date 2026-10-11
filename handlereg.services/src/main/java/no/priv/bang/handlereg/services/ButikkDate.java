@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.services;
 /*
- * Copyright 2019-2024 Steinar Bang
+ * Copyright 2019-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +14,10 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.services;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
-public record ButikkDate(Butikk butikk, Date date) {
+public record ButikkDate(Butikk butikk, ZonedDateTime date) {
 
     public static Builder with() {
         return new Builder();
@@ -25,7 +25,7 @@ public record ButikkDate(Butikk butikk, Date date) {
 
     public static class Builder {
         private Butikk butikk;
-        private Date date;
+        private ZonedDateTime date;
 
         private Builder() {}
 
@@ -38,7 +38,7 @@ public record ButikkDate(Butikk butikk, Date date) {
             return this;
         }
 
-        public Builder date(Date date) {
+        public Builder date(ZonedDateTime date) {
             this.date = date;
             return this;
         }

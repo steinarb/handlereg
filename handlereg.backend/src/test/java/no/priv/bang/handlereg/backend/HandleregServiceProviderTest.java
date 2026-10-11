@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.backend;
 /*
- * Copyright 2019-2025 Steinar Bang
+ * Copyright 2019-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +14,6 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.backend;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Year;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -191,7 +191,7 @@ class HandleregServiceProviderTest {
         var originalOversikt = handlereg.finnOversikt("jod");
         var originalBalanse = originalOversikt.balanse();
         var nyttBelop = 510;
-        var now = new Date();
+        var now = ZonedDateTime.now();
         var nyHandling = NyHandling.with()
             .username("jod")
             .accountid(1)
@@ -254,7 +254,7 @@ class HandleregServiceProviderTest {
         handlereg.activate();
 
         var nyttBelop = 510;
-        var now = new Date();
+        var now = ZonedDateTime.now();
         var nyHandling = NyHandling.with()
             .username("jd")
             .accountid(1)

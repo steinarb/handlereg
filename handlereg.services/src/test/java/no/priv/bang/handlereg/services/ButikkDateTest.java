@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.services;
 /*
- * Copyright 2019-2024 Steinar Bang
+ * Copyright 2019-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +14,10 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Date;
-
+import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Test;
 
 class ButikkDateTest {
@@ -26,7 +25,7 @@ class ButikkDateTest {
     @Test
     void test() {
         var butikk = Butikk.with().butikknavn("Spar Fjellheimen").build();
-        var date = new Date();
+        var date = ZonedDateTime.now();
         var bean = ButikkDate.with().butikk(butikk).date(date).build();
         assertEquals(butikk, bean.butikk());
         assertEquals(date, bean.date());

@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.backend;
 /*
- * Copyright 2018-2025 Steinar Bang
+ * Copyright 2018-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +14,6 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.backend;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,8 +21,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Month;
 import java.time.Year;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -169,7 +170,7 @@ public class HandleregServiceProvider implements HandleregService {
                     while(results.next()) {
                         var transaction = Transaction.with()
                             .transactionId(results.getInt(TRANSACTION_ID))
-                            .handletidspunkt(new Date(results.getTimestamp("transaction_time").getTime()))
+                            .handletidspunkt(ZonedDateTime.ofInstant(results.getTimestamp("transaction_time").toInstant(), ZoneId.systemDefault()))
                             .butikk(results.getString(STORE_NAME))
                             .storeId(results.getInt(STORE_ID))
                             .belop(results.getDouble("transaction_amount"))
@@ -187,7 +188,7 @@ public class HandleregServiceProvider implements HandleregService {
 
     @Override
     public Oversikt registrerHandling(NyHandling handling) {
-        var transactionTime = handling.handletidspunkt() == null ? new Date() : handling.handletidspunkt();
+        var transactionTime = handling.handletidspunkt() == null ? ZonedDateTime.now() : handling.handletidspunkt();
         var sql = "insert into transactions (account_id, store_id, transaction_amount, transaction_time) values ((select account_id from accounts where username=?), ?, ?, ?)";
         try(var connection = datasource.getConnection()) {
             try(var statement = connection.prepareStatement(sql)) {
@@ -338,7 +339,7 @@ public class HandleregServiceProvider implements HandleregService {
                             .build();
                         var butikkSum = ButikkDate.with()
                             .butikk(butikk)
-                            .date(new Date(results.getTimestamp("handletid").getTime()))
+                            .date(ZonedDateTime.ofInstant(results.getTimestamp("handletid").toInstant(), ZoneId.systemDefault()))
                             .build();
                         sisteHandelIButikk.add(butikkSum);
                     }

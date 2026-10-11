@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.services;
 /*
- * Copyright 2018-2024 Steinar Bang
+ * Copyright 2018-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +14,10 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.services;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Date;
 
+import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Test;
 
 class NyHandlingTest {
@@ -28,7 +28,7 @@ class NyHandlingTest {
         var accountid = 2;
         var storeId = 2;
         var belop = 42.0;
-        var now = new Date();
+        var now = ZonedDateTime.now();
         var bean = NyHandling.with()
             .username(username)
             .accountid(accountid)

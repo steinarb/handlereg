@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.web.api;
 /*
- * Copyright 2018-2025 Steinar Bang
+ * Copyright 2018-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +14,6 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.web.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,10 +23,10 @@ import static org.mockito.Mockito.*;
 import java.io.IOException;
 import java.time.Month;
 import java.time.Year;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -166,7 +166,7 @@ class HandleregWebApiTest extends ShiroTestBase {
             .accountid(1)
             .storeId(1)
             .belop(510)
-            .handletidspunkt(new Date())
+            .handletidspunkt(ZonedDateTime.now())
             .build();
         var postBody = mapper.writeValueAsString(handling);
         request.setBodyContent(postBody);
@@ -288,7 +288,7 @@ class HandleregWebApiTest extends ShiroTestBase {
     @Test
     void testSisteHandelIButikk() throws Exception {
         var handlereg = mock(HandleregService.class);
-        when(handlereg.sisteHandelIButikk()).thenReturn(Arrays.asList(ButikkDate.with().butikk(Butikk.with().butikknavn("Spar Fjellheimen").build()).date(new Date()).build(), ButikkDate.with().butikk(Butikk.with().butikknavn("Joker Nord").build()).date(new Date()).build()));
+        when(handlereg.sisteHandelIButikk()).thenReturn(Arrays.asList(ButikkDate.with().butikk(Butikk.with().butikknavn("Spar Fjellheimen").build()).date(ZonedDateTime.now()).build(), ButikkDate.with().butikk(Butikk.with().butikknavn("Joker Nord").build()).date(ZonedDateTime.now()).build()));
         var logservice = new MockLogService();
         var servlet = simulateDSComponentActivationAndWebWhiteboardConfiguration(handlereg, logservice);
         var request = buildGetUrl("/statistikk/sistehandel");

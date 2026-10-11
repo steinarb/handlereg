@@ -1,5 +1,6 @@
+package no.priv.bang.handlereg.services;
 /*
- * Copyright 2018-2024 Steinar Bang
+ * Copyright 2018-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +14,10 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package no.priv.bang.handlereg.services;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
-public record NyHandling(String username, int accountid, int storeId, double belop, Date handletidspunkt) {
+public record NyHandling(String username, int accountid, int storeId, double belop, ZonedDateTime handletidspunkt) {
 
     public static Builder with() {
         return new Builder();
@@ -28,7 +28,7 @@ public record NyHandling(String username, int accountid, int storeId, double bel
         private int accountid = -1;
         private int storeId = -1;
         private double belop;
-        private Date handletidspunkt;
+        private ZonedDateTime handletidspunkt;
 
         private Builder() {}
 
@@ -56,7 +56,7 @@ public record NyHandling(String username, int accountid, int storeId, double bel
             return this;
         }
 
-        public Builder handletidspunkt(Date handletidspunkt) {
+        public Builder handletidspunkt(ZonedDateTime handletidspunkt) {
             this.handletidspunkt = handletidspunkt;
             return this;
         }
