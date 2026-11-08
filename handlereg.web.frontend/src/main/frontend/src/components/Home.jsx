@@ -104,7 +104,7 @@ export default function Home() {
                         <tbody>
                             {handlingerIsSuccess && handlinger.pages.map((page) => page.map((handling) =>
                                             <tr key={handling.transactionId}>
-                                                <td>{new Date(handling.handletidspunkt).toISOString().split('T')[0]}</td>
+                                                <td>{new Date(handling.handletidspunkt < 100000000000 ? handling.handletidspunkt * 1000 : handling.handletidspunkt).toISOString().split('T')[0]}</td>
                                                 <td>{handling.belop}</td>
                                                 <td>{handling.butikk}</td>
                                             </tr>
