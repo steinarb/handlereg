@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2025 Steinar Bang
+ * Copyright 2018-2026 Steinar Bang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -136,7 +136,7 @@ class HandleregLiquibaseTest {
                     var rekkefolge = results.getInt(4);
                     var deaktivert = results.getBoolean(5);
                     storeids.put(storename, storeid);
-                    storeWriter.println(String.format("insert into stores (store_name, gruppe, rekkefolge, deaktivert) values ('%s', %d, %d, %b);", storename, gruppe, rekkefolge, deaktivert));
+                    storeWriter.printf("insert into stores (store_name, gruppe, rekkefolge, deaktivert) values ('%s', %d, %d, %b);%n", storename, gruppe, rekkefolge, deaktivert);
                 }
             }
         }
